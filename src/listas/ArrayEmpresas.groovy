@@ -16,10 +16,15 @@ class ArrayEmpresas {
 
     void printList() {
         lista.each {
+            println("\n")
             println("Nome: ${it.nome}")
             println("Email: ${it.email}")
             println("CNPJ: ${it.cnpj}")
-            println("\n")
+            println("País: ${it.pais}")
+            println("Estado: ${it.estado}")
+            println("Cep: ${it.cep}")
+            println("Descrição da empresa: ${it.descricao}")
+            println("Tecnologias usadas na empresa: ${it.competencias}")
         }
     }
 }

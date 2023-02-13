@@ -64,6 +64,7 @@ static void main(String[] args) {
         def verificador = ""
 
         while(true){
+            println()
             println "Seja bem vindo ao Linketinder\n" +
                     "Digite o numero correspondente à ação desejada\n" +
                     "1. Listar empregadores\n" +

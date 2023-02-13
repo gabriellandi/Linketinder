@@ -16,10 +16,15 @@ class ArrayFuncionarios {
 
     void printList() {
         lista.each {
+            println("\n")
             println("Nome: ${it.nome}")
+            println("Idade: ${it.idade}")
             println("Email: ${it.email}")
             println("CPF: ${it.cpf}")
-            println("\n")
+            println("CEP: ${it.cep}")
+            println("Estado: ${it.estado}")
+            println("Descrição: ${it.descricao}")
+            println("Tecnologias dominadas: ${it.competencias}")
         }
     }
 }
