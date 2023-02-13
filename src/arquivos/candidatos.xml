@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<candidatos>
+  <candidato nome='Antonio Pacoca' email='antonio.pacoca@batutinhas.com' cpf='177379077712' idade='25' estado='GO' cep='74000000' descricao='Apenas um comedor de paçoca' competencias='[Groovy, Java]' />
+  <candidato nome='Joaquim Mandioca' email='joaquim.mandioca@batutinhas.com' cpf='74738574212' idade='46' estado='GO' cep='74000000' descricao='Amo moer madiocas' competencias='[Groovy, Java]' />
+  <candidato nome='Jubileu Ovada' email='jubileu.ovada@batutinhas.com' cpf='10264050351' idade='32' estado='ES' cep='74000000' descricao='Prefiro não explicar meu nome' competencias='[Groovy, Java]' />
+  <candidato nome='Juscelino Kobreocheque' email='juscelino.kobreocheque@batutinhas.com' cpf='14947714841' idade='22' estado='PA' cep='74000000' descricao='Sou viciado em pagar cheques alheios' competencias='[Groovy, Java]' />
+  <candidato nome='Roberto Lambisomen' email='antonio.pacoca@batutinhas.com' cpf='27901929331' idade='18' estado='CE' cep='74000000' descricao='Tenho um desejo diferenciado' competencias='[Groovy, Java]' />
+</candidatos>
