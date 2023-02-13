@@ -244,7 +244,6 @@ static void main(String[] args) {
                                             println "Digite uma tecnologia usando apenas letras"
                                         }
                                         competencias << competencia
-                                        println competencias
                                         break
                                     case "N":
                                         if(competencias != []){
