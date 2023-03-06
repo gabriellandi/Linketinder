@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="assets/css/styleCadastroEmpresa.css" />
+    <title>Cadastrar Empresa</title>
+</head>
+<body>
+    <div class="voltarMenu">
+        <a href="index.html">
+            <img src="assets/images/botaoVoltar.png">
+            <div>Retornar a pagina principal</div>
+        </a>
+    </div>
+    <section id="pageCadastroEmpresa">
+        <form>
+            <div class = "cadastro">
+                <h2>Preencha os campos abaixo para cadastrar sua vaga</h2>
+
+                <label>CNPJ da Empresa: </br>
+                    <input type="number" id="cnpj" required="required"/>
+                </label>
+                <label>Nome da vaga: </br>
+                    <input type="text" id="nome" required="required"/>
+                </label>
+                <label>Competencias: (Separá-las por virgula) </br>
+                    <input type="text" id="competencias" required="required"/>
+                </label>
+                <label> Descrição:</br>
+                    <textarea id = "descricao" placeholder="Descreva aqui a a tarefa" value = "test"></textarea>
+                </label>
+                <label> Salario:</br>
+                    <input type="text" id="salario" required="required"/>
+                </label>
+                <button id="adiciona-Vaga">
+                    Salvar Vaga
+                </button>
+            </div>
+        </form>
+    </section>
+    <script src = '../dist/pageCadastroVaga.min.js'></script>
+    <script src = '../dist/index.min.js'></script>
+</body>
+</html>

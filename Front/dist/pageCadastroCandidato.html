@@ -1,0 +1,52 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="assets/css/styleCadastroEmpresa.css" />
+    <title>Cadastrar Empresa</title>
+</head>
+<body>
+    <div class="voltarMenu">
+        <a href="index.html">
+            <img src="assets/images/botaoVoltar.png">
+            <div>Retornar a pagina principal</div>
+        </a>
+    </div>
+    <section id="pageCadastroEmpresa">
+        <form>
+            <div class = "cadastro">
+                <h2>Preencha os campos abaixo para se cadastrar</h2>
+
+                <label>Nome: </br>
+                    <input type="text" id="nome" required="required"/>
+                </label>
+                <label>CPF: </br>
+                    <input type="number" id="cpf" required="required"/>
+                </label>
+                <label>Email: </br>
+                    <input type="text" id="email" required="required"/>
+                </label>
+                <label>Competencias: (Separá-las por virgula) </br>
+                    <input type="text" id="competencias" required="required"/>
+                </label>
+                <label>Cep: </br>
+                    <input type="number" id="cep" required="required"/>
+                </label>
+                <label>Estado: </br>
+                    <input type="text" id="estado" required="required"/>
+                </label>
+                <label> Descrição: (Se descreva de forma bem intuitiva, pois este será um dos principais atribuitos que nossas empresas parceiras verão)</br>
+                    <textarea id = "descricao" placeholder="Descreva aqui seu momento atual, quem é voce, se está estudando ou trabalhando em alguma função"></textarea>
+                </label>
+                <button id="adiciona-Candidato">
+                    Cadastrar Funcionario
+                </button>
+            </div>
+        </form>
+    </section>
+    <script src = '../dist/pageCadastroCandidato.min.js'></script>
+    <script src = '../dist/index.min.js'></script>
+</body>
+</html>
