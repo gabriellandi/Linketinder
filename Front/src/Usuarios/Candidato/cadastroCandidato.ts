@@ -5,17 +5,32 @@ import Candidato from "./candidato";
 let nomeCandidato = document.getElementById('nome') as HTMLInputElement;
 let emailCandidato = document.getElementById('email') as HTMLInputElement;
 let cpfCandidato = document.getElementById('cpf') as HTMLInputElement;
-let competenciasCandidato  = document.getElementById('competencias') as HTMLInputElement;
 let cepCandidato  = document.getElementById('cep') as HTMLInputElement;
 let estadoCandidato  = document.getElementById('estado') as HTMLInputElement;
 let descricaoCandidato  = document.getElementById('descricao') as HTMLInputElement;
 
 let botaoSalvaCandidato = document.getElementById('adiciona-Candidato') as HTMLElement;
 
+let linguagensSelecionadas: string[] = [];
+
+function armazenarLinguagens() {
+  let checkboxes = document.getElementsByName('linguagem');
+  for (let i = 0; i < checkboxes.length; i++) {
+    // verificar se o elemento é um input do tipo "checkbox"
+    if ((checkboxes[i] as HTMLInputElement).type === 'checkbox' && (checkboxes[i] as HTMLInputElement).checked) {
+      linguagensSelecionadas.push((checkboxes[i] as HTMLInputElement).value);
+    }
+  }
+  console.log(linguagensSelecionadas);
+  return false;
+}
+
 
 //Evento
 botaoSalvaCandidato.addEventListener("click", (e) => {
     e.preventDefault();
+
+    armazenarLinguagens();
 
     let newCandidato = new Candidato();
 
@@ -27,23 +42,26 @@ botaoSalvaCandidato.addEventListener("click", (e) => {
         return;
     }
 
-    if (emailCandidato.checkValidity()) {
+    const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (regexEmail.test(emailCandidato.value)) {
         newCandidato.email = emailCandidato.value;
     } else {
         alert('O campo email deve conter um email válido.');
         return;
     }
 
+    const regexCpf = /^\d{11}$/;
     const cpf = parseInt(cpfCandidato.value, 10);
-    if (cpf.toString().length === 11) {
+    if (regexCpf.test(cpf.toString())) {
         newCandidato.cpfCandidato = cpf;
     } else {
         alert('O campo cpf deve conter 11 números.');
         return;
     }
 
+    const regexCEP = /^\d{8}$/;
     const cep = parseInt(cepCandidato.value, 10);
-    if (cep.toString().length === 8) {
+    if (regexCpf.test(cep.toString())) {
         newCandidato.cep = cep;
     } else {
         alert('O campo cep deve conter 8 números.');
@@ -58,10 +76,7 @@ botaoSalvaCandidato.addEventListener("click", (e) => {
         return;
     }
 
-    newCandidato.competencias = competenciasCandidato.value
-        .split(",")
-        .map(word => word.trim().toUpperCase())
-        .filter(word => word !== "");
+    newCandidato.competencias = linguagensSelecionadas;
 
     console.log(newCandidato);
 

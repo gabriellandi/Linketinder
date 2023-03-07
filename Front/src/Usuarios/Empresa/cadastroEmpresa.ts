@@ -5,16 +5,31 @@ import Empresa from "./empresa";
 let nomeEmpresa = document.getElementById('nome') as HTMLInputElement;
 let emailEmpresa = document.getElementById('email') as HTMLInputElement;
 let cnpjEmpresa = document.getElementById('cnpj') as HTMLInputElement;
-let competenciasEmpresa  = document.getElementById('competencias') as HTMLInputElement;
 let cepEmpresa  = document.getElementById('cep') as HTMLInputElement;
 let estadoEmpresa  = document.getElementById('estado') as HTMLInputElement;
 let descricaoEmpresa  = document.getElementById('descricao') as HTMLInputElement;
+
+let linguagensSelecionadas: string[] = [];
+
+function armazenarLinguagens() {
+  let checkboxes = document.getElementsByName('linguagem');
+  for (let i = 0; i < checkboxes.length; i++) {
+    // verificar se o elemento é um input do tipo "checkbox"
+    if ((checkboxes[i] as HTMLInputElement).type === 'checkbox' && (checkboxes[i] as HTMLInputElement).checked) {
+      linguagensSelecionadas.push((checkboxes[i] as HTMLInputElement).value);
+    }
+  }
+  console.log(linguagensSelecionadas);
+  return false;
+}
 
 let botaoSalvaEmpresa = document.getElementById('adiciona-Empresa') as HTMLElement;
 
 
 //Evento
 botaoSalvaEmpresa.addEventListener("click", (e) => {
+    e.preventDefault();
+    armazenarLinguagens();
 
     let newEmpresa = new Empresa();
 
@@ -26,23 +41,26 @@ botaoSalvaEmpresa.addEventListener("click", (e) => {
         return;
     }
 
-    if (emailEmpresa.checkValidity()) {
+    const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (regexEmail.test(emailEmpresa.value)) {
         newEmpresa.email = emailEmpresa.value;
     } else {
         alert('O campo email deve conter um email válido.');
         return;
     }
 
+    const regexCNPJ = /^\d{14}$/;
     const cnpj = parseInt(cnpjEmpresa.value, 10);
-    if (cnpj.toString().length === 14) {
+    if (regexCNPJ.test(cnpj.toString())) {
         newEmpresa.cnpjEmpresa = cnpj;
     } else {
         alert('O campo cnpj deve conter 14 números.');
         return;
     }
 
+    const regexCEP = /^\d{8}$/;
     const cep = parseInt(cepEmpresa.value, 10);
-    if (cep.toString().length === 8) {
+    if (regexCEP.test(cep.toString())) {
         newEmpresa.cep = cep;
     } else {
         alert('O campo cep deve conter 8 números.');
@@ -57,10 +75,7 @@ botaoSalvaEmpresa.addEventListener("click", (e) => {
         return;
     }
 
-    newEmpresa.competencias = competenciasEmpresa.value
-        .split(",")
-        .map(word => word.trim().toUpperCase())
-        .filter(word => word !== "");
+    newEmpresa.competencias = linguagensSelecionadas;
 
     newEmpresa.vagas = [];
 
