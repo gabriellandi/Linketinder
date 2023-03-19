@@ -1,0 +1,27 @@
+plugins {
+    id 'application'
+    id 'groovy'
+    id 'java'
+}
+
+application {
+    mainClass = 'app'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:4.13.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:4.13.1'
+    implementation 'org.apache.groovy:groovy-all:4.0.8'
+    implementation 'org.postgresql:postgresql:42.3.1'
+}
+
+test {
+    useJUnitPlatform()
+}

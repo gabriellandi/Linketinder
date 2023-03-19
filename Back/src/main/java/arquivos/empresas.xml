@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<empresas>
-  <empresa nome='Sangue Suga S.A' email='sangue.suga@batutinhas.com.br' cnpj='55555555511' pais='Brasil' estado='PA' cep='74000000' descricao='Trabalhamos com o sangue' competencias='[Groovy, Java]' />
-  <empresa nome='Best Chicken' email='best.chicken@batutinhas.com.br' cnpj='66666666611' pais='Brasil' estado='SC' cep='74000000' descricao='Se a vida te der um ovo, faça um omelete' competencias='[Groovy, Java]' />
-  <empresa nome='Tadala Enterprise' email='tadala.enterprise@batutinhas.com' cnpj='77777777711' pais='Brasil' estado='GO' cep='74000000' descricao='Entregando disposição aos interessados' competencias='[Groovy, Java]' />
-  <empresa nome='Love Credores' email='love.credores@batutinhas.com' cnpj='88888888811' pais='Brasil' estado='GO' cep='74000000' descricao='Seu atraso é meu lucro' competencias='[Groovy, Java]' />
-  <empresa nome='Moinho LTDA' email='moinho@batutinhas.com' cnpj='99999999911' pais='Brasil' estado='GO' cep='74000000' descricao='Fornecendo farinha para o mundo' competencias='[Groovy, Java]' />
-</empresas>
