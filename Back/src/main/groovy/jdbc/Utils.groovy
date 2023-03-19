@@ -1,7 +1,5 @@
 package jdbc
 
-import jdbc.bancos.candidato.CandidatoJDBC
-
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
