@@ -5,11 +5,14 @@ plugins {
 }
 
 application {
-    mainClass = 'app'
+    mainClass = 'groovy.app'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+jar {
+    manifest{
+        attributes 'Main-Class': 'groovy.app'
+    }
+}
 
 repositories {
     mavenCentral()

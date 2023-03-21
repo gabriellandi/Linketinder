@@ -10,7 +10,7 @@ import classes.usuarios.PessoaFisica
 import classes.usuarios.PessoaJuridica
 import java.text.SimpleDateFormat
 
-class app {
+class App {
     static void main(String[] args) {
         //Bancos
         CandidatoJDBC bancoCandidato = new CandidatoJDBC()
