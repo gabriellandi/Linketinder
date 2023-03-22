@@ -47,3 +47,7 @@ eclipse
 # System Files
 .DS_Store
 Thumbs.db
+
+#Git
+.gitignore
+.gitattributes
