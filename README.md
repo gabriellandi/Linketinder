@@ -1,6 +1,6 @@
 Seja Bem Vindo!!!
 
-No momento ela está na versão 2.0.0. E nesta versão ela foi desenvolvida usando Groovy somente.
+No momento ela está na versão 1.3.0. E nesta versão ela foi desenvolvida usando Groovy somente.
 
 Para execução da aplicação, será necessário, ter instalado:
     - Java 8 ou superior:
