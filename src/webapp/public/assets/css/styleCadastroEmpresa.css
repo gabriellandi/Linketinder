@@ -1,0 +1,70 @@
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.voltarMenu {
+    display: flex;
+    justify-content: space-between;
+    width: 90vw;
+}
+.voltarMenu a{
+    text-decoration: none;
+    display: flex;
+    height: 80px;
+    align-items: center;
+    justify-content: start;
+}
+.voltarMenu img {
+    width: 50px;
+    height: 50px;
+}
+.voltarMenu div {
+    padding: 10px;
+    font-size: 20px;
+}
+
+#pageCadastroEmpresa{
+    flex: 1;
+}
+
+
+form {
+    display: flex;
+}
+.cadastro {
+    display: flex;
+    flex-direction: column;
+}
+.cadastro label {
+    margin-top: 20px;
+}
+.cadastro button {
+    margin-top: 20px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#grafico {
+    width: 800px;
+    height: 800px;
+}
+
+#vagas {
+    flex: 1;
+    justify-content: start;
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+}
+
+#checkboxes {
+    margin-top: 20px
+}

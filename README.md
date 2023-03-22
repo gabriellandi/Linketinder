@@ -1,19 +1,34 @@
 Seja Bem Vindo!!!
 
-Está aplicação será desenvolvida ao longo do programa Acelera ZG!!!
+No momento ela está na versão 2.0.0. E nesta versão ela foi desenvolvida usando Groovy somente.
 
-No momento ela está na versão 1.0.0. E nesta versão ela foi desenvolvida usando Groovy somente.
+Para execução da aplicação, será necessário, ter instalado:
+    - Java 8 ou superior:
+    - Postgresql 11 ou superior:
 
-E se trata de uma aplicação de terminal,cujo objetivo é coa funcionalidade de Match do Tinder, com o campo individual de competências visto no Linkedin e na relação estabelecida entre empresa recrutadora e candidato.
+Com os itens acima instalado, basta baixar o arquivo app.jar, ir até a pasta onde foi realizado o download abrir o terminal naquela pasta, e executar o comando:
+
+java -jar app.jar
+
+Com isso a aplicação irá iniciar no seu terminal, conforme imagem abaixo:
+
+![alt text](assets/app.png)
+
+De acordo com o número escolhido a ação será executada.
+
+E se trata de uma aplicação de terminal, cujo objetivo é coa funcionalidade de Match do Tinder, com o campo individual de competências visto no Linkedin e na relação estabelecida entre empresa recrutadora e candidato.
 
 Neste momento, existem 2 versões da aplicação:
 
-BackEnd: Está rodando apenas no terminal, que foi desenvolvida com Groovy. A aplicação possui uma persistencia simples em XML, onde é possível adicionar novos candidados e novas empresas, as entradas de terminal estão todas verificadas com Regex. Os testes da aplicação foram desenvolvidos em JUnit 4.
+BackEnd: Está aplicação funciona no terminal foi desenvolvida com Groovy. A persistencia evoluiu e agora é realizada com postgresql mais abaixo irei descrever como funciona, as entradas de terminal estão todas verificadas com Regex. Os testes da aplicação foram desenvolvidos em JUnit 4.
 
 Resumindo a lógica do Back:
     - Tenho uma classe Usuarios, que foi criada para ser herdada pelo Candidato e pela Empresa, pois as mesmas possuem caracteristicas de usuário.
-    - Os objetos gerados pelo user do aplicação são adicionados em um Array de classe que foi desenvolvido para receber objetos do tipo correspondente, por exempo existe uma classe ArrayEmpresas para receber objetos do tipo Empresa. Essas classes foram criadas para ser mais simples e claro, adicionar uma empresa e até mesmo apresentá-la no terminal.
-    - Por fim a cada empresa ou candidato cadastrado eles são salvos em um arquivo XML.
+    - Para realizar as validações de entrada no terminal a aplicação conta com uma classe chamada regexUsuários, que valida todas entradas de terminal.
+    - Após realizar a modelagem do banco, foi necessário alterar a lógica e a estrutura do projeto, anteriormente existia classes para arrays que recebia individualmente candidato e empresa para adicionar os objetos e até mesmo apresentá-los estes foram descartados pois não eram mais necessários.
+    - Separamos as competencias dos usuários, agora existe uma classe para tratar estes objetos e possuimos uma tabela única para armazená-los, o mesmo acontece para as vagas e paises.
+    - As competencias podem ser adicionadas aos candidatos e as vagas, uma tabela de transição foi criada para não gerar dados duplicados nas tabelas de candidatos ou vagas. Assim ao registrar as competencias, junto ao id_competencia é registrado o id da vaga ou candidato nesta tabela de transição.
+    - Na persistencia dos candidatos e empresas é realizado um registro de id_Pais na tabela, pois os países foram salvos em outra tabela para respeitar as normas da modelagem.
 
 FrontEnd: É uma aplicação desenvolvida majoritariamente em TypeScript, onde os arquivos TS foram compilados usando o WebPack, na pasta de Front, é possível rodar a aplicaçao a partir da pasta "dist", e se necessário analisar a logica utilizada no TypeScript os arquivos estão na pasta src.
 
@@ -28,9 +43,9 @@ Banco de dados:
 
  - Abaixo apresento o Diagrama Entidade Relacionamento
 
-![alt text](BancoDeDados/Linketinder_DER.png)
+![alt text](assets/BancoDeDados/Linketinder_DER.png)
 
 A representação gráfica acima foi desenvolvida usando o BRModelo. Para desenvolver o banco de dados, utilizei como base o site [dbdiagram](https://dbdiagram.io), nele desenvolvi o esqueleto do meu banco de dados, exportei o arquivo SQL pelo site realizei algumas edições no arquivo antes de rodá-lo no banco.
 Dentro da pasta banco de dados se encontra o codigo sql, que gerou o banco e alguns dados de exemplo que foram inseridos.
 
-CRUD: O crud foi realizado usando apenas JDBC, agora é possível realizar o CRUD nas tabelas candidatos, empresas, competencias e vagas.
+Está aplicação será desenvolvida ao longo do programa Acelera ZG!!!
