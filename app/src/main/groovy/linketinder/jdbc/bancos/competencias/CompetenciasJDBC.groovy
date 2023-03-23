@@ -199,7 +199,7 @@ class CompetenciasJDBC {
     }
 
     void inserirCompetenciasCandidatos(int idCandidato, int idCompetencia){
-        String INSERIR = "INSERT INTO (id_user, id_competencia) user_competencias VALUES (?,?)"
+        String INSERIR = "INSERT INTO user_competencias (id_candidato, id_competencia) VALUES (?,?)"
         try{
             Connection conn = conectionBD.conectar()
             PreparedStatement salvar = conn.prepareStatement(INSERIR)
@@ -216,7 +216,7 @@ class CompetenciasJDBC {
     }
 
     void inserirCompetenciasVagas(int idVaga, int idCompetencia){
-        String INSERIR = "INSERT INTO (id_vaga, id_competencia) user_competencias VALUES (?,?)"
+        String INSERIR = "INSERT INTO user_competencias (id_vaga, id_competencia) VALUES (?,?)"
         try{
             Connection conn = conectionBD.conectar()
             PreparedStatement salvar = conn.prepareStatement(INSERIR)
