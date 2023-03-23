@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,19 +16,16 @@
     <section id="pageCadastroEmpresa">
         <form>
             <div class = "cadastro">
-                <h2>Preencha os campos abaixo para se cadastrar</h2>
+                <h2>Preencha os campos abaixo para cadastrar sua vaga</h2>
 
-                <label>Nome: </br>
+                <label>CNPJ da Empresa: </br>
+                    <input type="number" id="cnpj" required="required"/>
+                </label>
+                <label>Nome da vaga: </br>
                     <input type="text" id="nome" required="required"/>
                 </label>
-                <label>CPF: </br>
-                    <input type="number" id="cpf" required="required"/>
-                </label>
-                <label>Email: </br>
-                    <input type="text" id="email" required="required"/>
-                </label>
                 <div id = 'checkboxes'>
-                    Marque as opções correspondentes as tecnologias que você desenvolve:</br>
+                    Marque as opções correspondentes as tecnologias da vaga:</br>
                     <input type="checkbox" id="java" name="linguagem" value="java">
                     <label for="java">Java</label>
 
@@ -57,22 +53,19 @@
                     <input type="checkbox" id="typescript" name="linguagem" value="typescript">
                     <label for="typescript">TypeScript</label>
                 </div>
-                <label>Cep: </br>
-                    <input type="number" id="cep" required="required"/>
+                <label> Descrição:</br>
+                    <textarea id = "descricao" placeholder="Descreva aqui a a tarefa" value = "test"></textarea>
                 </label>
-                <label>Estado: </br>
-                    <input type="text" id="estado" required="required"/>
+                <label> Salario:</br>
+                    <input type="text" id="salario" required="required"/>
                 </label>
-                <label> Descrição: (Se descreva de forma bem intuitiva, pois este será um dos principais atribuitos que nossas empresas parceiras verão)</br>
-                    <textarea id = "descricao" placeholder="Descreva aqui seu momento atual, quem é voce, se está estudando ou trabalhando em alguma função"></textarea>
-                </label>
-                <button id="adiciona-Candidato">
-                    Cadastrar Funcionario
+                <button id="adiciona-Vaga">
+                    Salvar Vaga
                 </button>
             </div>
         </form>
     </section>
-    <script src = '../dist/pageCadastroCandidato.min.js'></script>
-    <script src = '../dist/index.min.js'></script>
+    <script src = 'pageCadastroVaga.min.js'></script>
+    <script src = 'index.min.js'></script>
 </body>
 </html>
