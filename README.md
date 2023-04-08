@@ -16,7 +16,7 @@ Com isso a aplicação irá iniciar no seu terminal, conforme imagem abaixo:
 
 De acordo com o número escolhido a ação será executada.
 
-E se trata de uma aplicação de terminal, cujo objetivo é coa funcionalidade de Match do Tinder, com o campo individual de competências visto no Linkedin e na relação estabelecida entre empresa recrutadora e candidato.
+Se trata de uma aplicação de terminal, cujo objetivo é, usando a funcionalidade de Match do Tinder, com o campo individual de competências do Linkedin estabelecer uma relação entre empresa recrutadora e candidato.
 
 Neste momento, existem 2 versões da aplicação:
 
