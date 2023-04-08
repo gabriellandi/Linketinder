@@ -211,3 +211,33 @@ WHERE empresa.id_vaga = candidato.id_vaga
 AND empresa.id_candidato = candidato.id_candidato
 AND empresa.curtida_origem = 'EMPRESA'
 AND candidato.curtida_origem = 'CANDIDATO';
+
+-- Possibilita o cascade na tabela vagas
+
+ALTER TABLE vagas
+DROP CONSTRAINT vagas_id_empresa_fkey,
+ADD CONSTRAINT vagas_id_empresa_fkey
+    FOREIGN KEY (id_empresa)
+    REFERENCES empresas (ID)
+    ON DELETE CASCADE;
+
+ALTER TABLE user_competencias
+DROP CONSTRAINT user_competencias_id_candidato_fkey,
+ADD CONSTRAINT user_competencias_id_candidato_fkey
+    FOREIGN KEY (id_candidato)
+    REFERENCES candidatos (ID)
+    ON DELETE CASCADE;
+
+ALTER TABLE user_competencias
+DROP CONSTRAINT user_competencias_id_competencia_fkey,
+ADD CONSTRAINT user_competencias_id_competencia_fkey
+    FOREIGN KEY (id_competencia)
+    REFERENCES competencias (ID)
+    ON DELETE CASCADE;
+
+ALTER TABLE user_competencias
+DROP CONSTRAINT user_competencias_id_vaga_fkey,
+ADD CONSTRAINT user_competencias_id_vaga_fkey
+    FOREIGN KEY (id_vaga)
+    REFERENCES vagas (ID)
+    ON DELETE CASCADE;

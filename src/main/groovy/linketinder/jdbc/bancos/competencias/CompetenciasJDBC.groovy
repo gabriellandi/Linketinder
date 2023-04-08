@@ -26,7 +26,7 @@ class CompetenciasJDBC {
         }
     }
 
-    void listarCompetencias() {
+    List listarCompetencias() {
         String BUSCAR_TODOS = "SELECT * FROM competencias"
 
         try {
@@ -41,11 +41,16 @@ class CompetenciasJDBC {
             res.last()
             res.beforeFirst()
 
+            List listCompetencias = []
+
             while(res.next()){
-                println ("ID: " + res.getInt(1))
-                println ("Nome: " + res.getString(2))
+                def comp = [:]
+                comp.id = res.getInt(1)
+                comp.nome = res.getString(2)
+                listCompetencias << comp
             }
 
+            return listCompetencias
             conectionBD.desconectar(conn)
         } catch (Exception e) {
             e.printStackTrace()
@@ -54,30 +59,7 @@ class CompetenciasJDBC {
         }
     }
 
-    int contar() {
-        String CONTAR_EMPRESAS = "SELECT COUNT(id) FROM competencias"
-        try {
-            Connection conn = conectionBD.conectar()
-            PreparedStatement empresas = conn.prepareStatement(CONTAR_EMPRESAS)
-            ResultSet res = empresas.executeQuery()
-
-            int numeroEmpresas = 0
-            if (res.next()) { // avança o cursor para a primeira linha dos resultados
-                numeroEmpresas = res.getInt(1)
-            }
-
-            conectionBD.desconectar(conn)
-
-            return numeroEmpresas
-        } catch (Exception e) {
-            e.printStackTrace()
-            System.err.println("Erro buscando todas as competencias")
-            System.exit(-42)
-            return -1
-        }
-    }
-
-    void atualizarCompetecia(Scanner leitorCompetencia){
+    void atualizarCompetencia(Scanner leitorCompetencia){
         println "Informe o código da competencia: "
         int id = Integer.parseInt(leitorCompetencia.nextLine())
 
@@ -125,42 +107,19 @@ class CompetenciasJDBC {
     }
 
     void deletarCompetencia(Scanner leitorCompetencia) {
-        String DELETAR_COMP = "DELETE FROM competencias WHERE id = ?"
-        String DELETAR_COMP_REF = "DELETE FROM user_competencias WHERE id_competencia = ?"
-        String BUSCAR_POR_ID = "SELECT * FROM competencias WHERE id=?"
+        String DELETAR_COMP = "DELETE FROM competencias CASCADE WHERE id = ?"
 
         println "Informe o id da competencia: "
         int id = Integer.parseInt(leitorCompetencia.nextLine())
 
         try {
             Connection conn = conectionBD.conectar()
-            PreparedStatement vagas = conn.prepareStatement(
-                    BUSCAR_POR_ID,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            )
-            vagas.setInt(1, id)
-            ResultSet res = vagas.executeQuery()
-
-            res.last()
-            int qtd = res.getRow()
-            res.beforeFirst()
-
-            if(qtd>0) {
-                //Deleta na tabela user_competencias
-                PreparedStatement delCompVaga = conn.prepareStatement(DELETAR_COMP_REF)
-                delCompVaga.setInt(1,id)
-                delCompVaga.executeUpdate()
-                delCompVaga.close()
-
-                //Deleta na tabela vaga
-                PreparedStatement delCompetencia = conn.prepareStatement(DELETAR_COMP)
-                delCompetencia.setInt(1,id)
-                delCompetencia.executeUpdate()
-                delCompetencia.close()
-                conectionBD.desconectar(conn)
-                println "A competencia foi deletado"
-            }
+            PreparedStatement delCompetencia = conn.prepareStatement(DELETAR_COMP)
+            delCompetencia.setInt(1,id)
+            delCompetencia.executeUpdate()
+            delCompetencia.close()
+            conectionBD.desconectar(conn)
+            println "A competencia foi deletado"
         } catch (Exception e){
             e.printStackTrace()
             System.err.println("Erro deletando a competencia")

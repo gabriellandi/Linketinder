@@ -9,7 +9,7 @@ import java.sql.ResultSet
 class PaisJDBC {
     Utils conectionBD = new Utils()
 
-    void listarPaises() {
+    List consultaPaises() {
         String BUSCAR_TODOS = "SELECT * FROM pais";
 
         try {
@@ -25,9 +25,16 @@ class PaisJDBC {
             int qtd = res.getRow()
             res.beforeFirst();
 
+            List listPais = []
+
             while(res.next()){
-                println (res.getInt(1) + " - " + res.getString(2));
+                def pais = [:]
+                pais.id = res.getInt(1)
+                pais.nome = res.getString(2)
+                listPais << pais
             }
+
+            return listPais
 
             conectionBD.desconectar(conn);
         } catch (Exception e) {

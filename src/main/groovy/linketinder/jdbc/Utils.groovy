@@ -2,6 +2,8 @@ package linketinder.jdbc
 
 import java.sql.Connection
 import java.sql.DriverManager
+import java.sql.PreparedStatement
+import java.sql.ResultSet
 import java.sql.SQLException
 
 class Utils {
@@ -9,9 +11,9 @@ class Utils {
     static Connection conectar() {
         Properties props = new Properties();
         props.setProperty("user", "landi");
-        props.setProperty("password", "laiss2");
+        props.setProperty("password", "acelera");
         props.setProperty("ssl", "false");
-        String URL_SERVIDOR = "jdbc:postgresql://localhost:5432/linketinder";
+        String URL_SERVIDOR = "jdbc:postgresql://localhost:5432/postgres";
 
         try {
             return DriverManager.getConnection(URL_SERVIDOR, props);
@@ -36,4 +38,5 @@ class Utils {
             }
         }
     }
+
 }

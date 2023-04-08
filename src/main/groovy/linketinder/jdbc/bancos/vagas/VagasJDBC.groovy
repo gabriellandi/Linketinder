@@ -1,6 +1,6 @@
 package linketinder.jdbc.bancos.vagas
 
-import linketinder.regex.RegexUsuarios
+import linketinder.regex.Regex
 import linketinder.vagas.Vagas
 import linketinder.jdbc.Utils
 import linketinder.jdbc.bancos.empresa.EmpresaJDBC
@@ -11,7 +11,7 @@ import java.sql.ResultSet
 
 class VagasJDBC {
     Utils conectionBD = new Utils()
-    RegexUsuarios regex = new RegexUsuarios();
+    Regex regex = new Regex();
     EmpresaJDBC bancoEmpresa = new EmpresaJDBC();
 
     void inserir(Vagas v){
@@ -39,49 +39,19 @@ class VagasJDBC {
     }
 
     void deletarVaga(Scanner leitorVaga) {
-        String DELETAR_VAGA = "DELETE FROM vagas WHERE id = ?"
-        String DELETAR_COMP_VAGA = "DELETE FROM user_competencias WHERE id_vaga = ?"
-        String DELETAR_CURTIDA_VAGA = "DELETE FROM curtida_empresa_candidato WHERE id_vaga = ?"
-        String BUSCAR_POR_ID = "SELECT * FROM vagas WHERE id=?"
+        String DELETAR_VAGA = "DELETE FROM vagas CASCADE WHERE id = ?"
 
-        println "Informe o código do produto: "
+        println "Informe o id da vaga: "
         int id = Integer.parseInt(leitorVaga.nextLine())
 
         try {
             Connection conn = conectionBD.conectar()
-            PreparedStatement vagas = conn.prepareStatement(
-                    BUSCAR_POR_ID,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            )
-            vagas.setInt(1, id)
-            ResultSet res = vagas.executeQuery()
-
-            res.last()
-            int qtd = res.getRow()
-            res.beforeFirst()
-
-            if(qtd>0) {
-                //Deleta na tabela user_competencias
-                PreparedStatement delCompVaga = conn.prepareStatement(DELETAR_COMP_VAGA)
-                delCompVaga.setInt(1,id)
-                delCompVaga.executeUpdate()
-                delCompVaga.close()
-
-                //Deleta curtida
-                delCurtida.close()
-                delCurtida.setInt(1,idVaga)
-                delCurtida.executeUpdate()
-                delCurtida.close()
-
-                //Deleta na tabela vaga
-                PreparedStatement delVaga = conn.prepareStatement(DELETAR_VAGA)
-                delVaga.setInt(1,id)
-                delVaga.executeUpdate()
-                delVaga.close()
-                conectionBD.desconectar(conn)
-                println "A vaga foi deletada"
-            }
+            PreparedStatement delVaga = conn.prepareStatement(DELETAR_VAGA)
+            delVaga.setInt(1,id)
+            delVaga.executeUpdate()
+            delVaga.close()
+            conectionBD.desconectar(conn)
+            println "A vaga foi deletada"
         } catch (Exception e){
             e.printStackTrace()
             System.err.println("Erro deletando a vaga")
@@ -172,7 +142,7 @@ class VagasJDBC {
             }
     }
 
-    void listar() {
+    List listar() {
         String BUSCAR_TODOS = "SELECT * FROM vagas"
 
         try {
@@ -187,41 +157,26 @@ class VagasJDBC {
             res.last()
             res.beforeFirst()
 
+            List listVagas = []
+
             while(res.next()){
-                println ("ID: " + res.getInt(1))
-                println ("Nome da Vaga: " + res.getString(3))
-                println ("Descricao da vaga: " + res.getString(5))
-                println "--------------------"
+                def vaga = [:]
+                vaga.id = res.getInt(1)
+                vaga.idEmpresa = res.getInt(2)
+                vaga.nome = res.getString(3)
+                vaga.descricao = res.getString(4)
+                vaga.dataCriacao = res.getDate(5)
+                vaga.estado = res.getString(6)
+                vaga.cidade = res.getString(7)
+                listVagas << vaga
             }
 
+            return listVagas
             conectionBD.desconectar(conn)
         } catch (Exception e) {
             e.printStackTrace()
             System.err.println("Erro buscando todas as vagas")
             System.exit(-42)
-        }
-    }
-
-    int contar() {
-        String CONTAR_EMPRESAS = "SELECT COUNT(id) FROM vagas"
-        try {
-            Connection conn = conectionBD.conectar()
-            PreparedStatement vagas = conn.prepareStatement(CONTAR_EMPRESAS)
-            ResultSet res = vagas.executeQuery()
-
-            int numeroEmpresas = 0
-            if (res.next()) { // avança o cursor para a primeira linha dos resultados
-                numeroEmpresas = res.getInt(1)
-            }
-
-            conectionBD.desconectar(conn)
-
-            return numeroEmpresas
-        } catch (Exception e) {
-            e.printStackTrace()
-            System.err.println("Erro buscando todas as vagas")
-            System.exit(-42)
-            return -1
         }
     }
 }
