@@ -3,7 +3,6 @@ package linketinder.usuarios
 import groovy.transform.ToString
 import linketinder.jdbc.bancos.pais.PaisJDBC
 import linketinder.regex.Regex
-import linketinder.vagas.Vagas
 
 @ToString
 class Empresa extends Usuario {
@@ -28,8 +27,7 @@ class Empresa extends Usuario {
         this.senha = senha
     }
 
-    static Empresa cadastrarEmpresa(Scanner leitor){
-        PaisJDBC bancoPaises = new PaisJDBC()
+    static Empresa cadastrarEmpresa(Scanner leitor, PaisJDBC bancoPaises){
         Empresa empresa = new Empresa()
         println "Digite o nome da sua empresa"
         empresa.setNome(leitor.nextLine())
@@ -52,7 +50,7 @@ class Empresa extends Usuario {
             empresa.setCnpj(Long.parseLong(leitor.nextLine()))
         }
 
-        List paises = bancoPaises.consultaPaises();
+        List paises = bancoPaises.listar()
         apresentarPaises(paises)
         println "Digite o numero correspondente ao país onde sua empresa está localizada."
         int num = leitor.nextInt()

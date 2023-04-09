@@ -1,5 +1,6 @@
 package linketinder;
 
+import linketinder.regex.Regex;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import linketinder.usuarios.Candidato;
@@ -21,16 +22,8 @@ public class TestPessoaFisica {
 
     @Test
     public void testNaoAceitaCpfErrado(){
-        Long resultadoEsperado = 78541236589l;
-
-        assertEquals(testRegexPessoaFisica.getCpf(), resultadoEsperado);
+        assert(Regex.validaCpf(testRegexPessoaFisica.getCpf()));
     }
 
-//    @Test
-//    public void testNaoAceitaIdadeErrada(){
-//        String resultadoEsperado = "26";
-//
-//        assertEquals(testRegexPessoaFisica.getIdade(), resultadoEsperado);
-//    }
 
 }

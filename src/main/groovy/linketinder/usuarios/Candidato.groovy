@@ -39,9 +39,8 @@ class Candidato extends Usuario{
         this.senha = senha
     }
 
-    static Candidato cadastrarCandidato(Scanner leitor){
-        Candidato newCandidate = new Candidato();
-        PaisJDBC bancoPaises = new PaisJDBC();
+    static Candidato criarCandidato(Scanner leitor, PaisJDBC bancoPaises){
+        Candidato newCandidate = new Candidato()
 
         println "Digite o seu nome"
         newCandidate.setNome(leitor.nextLine())
@@ -93,7 +92,7 @@ class Candidato extends Usuario{
         }
         newCandidate.setDtNascimento(dtNascimento)
 
-        List paises = bancoPaises.consultaPaises();
+        List paises = bancoPaises.listar()
         apresentarPaises(paises)
         println "Digite o numero correspondente ao país onde você mora."
         int num = leitor.nextInt()

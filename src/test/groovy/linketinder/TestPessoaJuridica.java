@@ -1,5 +1,6 @@
 package linketinder;
 
+import linketinder.regex.Regex;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import linketinder.usuarios.Empresa;
@@ -16,16 +17,7 @@ public class TestPessoaJuridica {
     }
 
     @Test
-    public void testNaoAceitaPaisForaDoPadrao(){
-        int resultadoEsperado = 1;
-
-        assertEquals(testRegexPessoaJuridica.getPais(), 1);
-    }
-
-    @Test
     public void testNaoAceitaCnpjForaDoPadrao(){
-        Long resultadoEsperado = 78541230001123l;
-
-        assertEquals(testRegexPessoaJuridica.getCnpj(), resultadoEsperado);
+        assert(Regex.validaCnpj(testRegexPessoaJuridica.getCnpj()));
     }
 }

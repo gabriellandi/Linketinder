@@ -7,7 +7,6 @@ import java.sql.ResultSet
 import java.sql.SQLException
 
 class Utils {
-
     static Connection conectar() {
         Properties props = new Properties();
         props.setProperty("user", "landi");
@@ -38,5 +37,4 @@ class Utils {
             }
         }
     }
-
 }

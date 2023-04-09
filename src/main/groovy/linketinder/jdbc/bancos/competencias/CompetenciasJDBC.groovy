@@ -1,13 +1,14 @@
 package linketinder.jdbc.bancos.competencias
 
 import linketinder.competencias.Competencias
+import linketinder.jdbc.Connect
 import linketinder.jdbc.Utils
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class CompetenciasJDBC {
+class CompetenciasJDBC implements Connect {
     Utils conectionBD = new Utils()
 
     void inserir(Competencias c){
@@ -26,7 +27,7 @@ class CompetenciasJDBC {
         }
     }
 
-    List listarCompetencias() {
+    List listar() {
         String BUSCAR_TODOS = "SELECT * FROM competencias"
 
         try {
@@ -59,7 +60,7 @@ class CompetenciasJDBC {
         }
     }
 
-    void atualizarCompetencia(Scanner leitorCompetencia){
+    void atualizar(Scanner leitorCompetencia){
         println "Informe o código da competencia: "
         int id = Integer.parseInt(leitorCompetencia.nextLine())
 
@@ -106,7 +107,7 @@ class CompetenciasJDBC {
         }
     }
 
-    void deletarCompetencia(Scanner leitorCompetencia) {
+    void deletar(Scanner leitorCompetencia) {
         String DELETAR_COMP = "DELETE FROM competencias CASCADE WHERE id = ?"
 
         println "Informe o id da competencia: "

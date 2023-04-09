@@ -241,3 +241,8 @@ ADD CONSTRAINT user_competencias_id_vaga_fkey
     FOREIGN KEY (id_vaga)
     REFERENCES vagas (ID)
     ON DELETE CASCADE;
+
+ALTER TABLE candidatos
+DROP CONSTRAINT candidatos_id_pais_fkey,
+  ADD CONSTRAINT candidatos_id_pais_fkey
+    FOREIGN KEY (id_pais) REFERENCES pais (id) ON DELETE CASCADE;

@@ -33,9 +33,9 @@ class Competencias {
         return listaCompetencias.contains(competencia.toUpperCase())
     }
 
-    static void cadastraCompetenciaCandidato(Scanner leitor){
-        CandidatoJDBC bancoCandidato = new CandidatoJDBC()
+    static Map cadastraCompetenciaCandidato(Scanner leitor, CandidatoJDBC bancoCandidato){
         CompetenciasJDBC bancoCompetencias = new CompetenciasJDBC()
+        Map ids = [:]
 
         println "Digite o numero correspondente ao ID do candidato que você deseja inserir a competencia"
         List listCandidatos = bancoCandidato.listar()
@@ -50,7 +50,7 @@ class Competencias {
         idCandidato = listCandidatos[idCandidato - 1].id
 
         println "Digite o numero correspondente ao ID da competencia que você deseja inserir"
-        List listCompetencias = bancoCompetencias.listarCompetencias()
+        List listCompetencias = bancoCompetencias.listar()
         apresentarCompetencias(listCompetencias)
         int idCompetencia = leitor.nextInt()
         leitor.nextLine()
@@ -61,12 +61,15 @@ class Competencias {
         }
         idCompetencia = listCompetencias[idCompetencia - 1].id
 
-        bancoCompetencias.inserirCompetenciasCandidatos(idCandidato, idCompetencia)
+        ids.idCandidato = idCandidato
+        ids.idCompetencia = idCompetencia
+
+        return ids
     }
 
-    static void cadastraCompetenciaVaga(Scanner leitor){
-        VagasJDBC bancoVagas = new CandidatoJDBC()
+    static Map cadastraCompetenciaVaga(Scanner leitor, VagasJDBC bancoVagas){
         CompetenciasJDBC bancoCompetencias = new CompetenciasJDBC()
+        Map ids = [:]
 
         println "Digite o numero correspondente ao ID da vaga que você deseja inserir a competencia"
         List listVagas = bancoVagas.listar()
@@ -81,7 +84,7 @@ class Competencias {
         idVaga = listVagas[idVaga - 1].id
 
         println "Digite o numero correspondente ao ID da competencia que você deseja inserir"
-        List listCompetencias = bancoCompetencias.listarCompetencias()
+        List listCompetencias = bancoCompetencias.listar()
         apresentarCompetencias(listCompetencias)
         int idCompetencia = leitor.nextInt()
         leitor.nextLine()
@@ -92,7 +95,10 @@ class Competencias {
         }
         idCompetencia = listCompetencias[idCompetencia - 1].id
 
-        bancoCompetencias.inserirCompetenciasVagas(idVaga, idCompetencia)
+        ids.idVaga = idVaga
+        ids.idCompetencia = idCompetencia
+
+        return ids
     }
 
     static void apresentarCompetencias(List competencias){

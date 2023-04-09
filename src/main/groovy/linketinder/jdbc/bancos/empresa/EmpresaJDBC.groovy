@@ -1,5 +1,6 @@
 package linketinder.jdbc.bancos.empresa
 
+import linketinder.jdbc.Connect
 import linketinder.usuarios.Empresa
 import linketinder.jdbc.Utils
 
@@ -7,7 +8,7 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class EmpresaJDBC {
+class EmpresaJDBC implements Connect{
     Utils conectionBD = new Utils()
 
     void inserir(Empresa newEmpresa) {
@@ -32,7 +33,8 @@ class EmpresaJDBC {
         println "ok"
     }
 
-    void deletarEmpresa(Scanner leitorEmpresa) {
+    @Override
+    void deletar(Scanner leitorEmpresa) {
         String DELETAR_EMPRESA = "DELETE FROM empresas CASCADE WHERE cnpj = ?"
 
         println "Informe o cnpj da empresa: "
@@ -53,7 +55,8 @@ class EmpresaJDBC {
         }
     }
 
-    void atualizarEmpresa(Scanner leitorEmpresa) {
+    @Override
+    void atualizar(Scanner leitorEmpresa) {
         println "Informe o código da empresa: "
         int id = Integer.parseInt(leitorEmpresa.nextLine())
 
@@ -101,6 +104,7 @@ class EmpresaJDBC {
         }
     }
 
+    @Override
     List listar() {
         String BUSCAR_TODOS = "SELECT * FROM empresas"
 

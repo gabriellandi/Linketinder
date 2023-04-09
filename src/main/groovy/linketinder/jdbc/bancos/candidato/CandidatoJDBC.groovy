@@ -1,5 +1,6 @@
 package linketinder.jdbc.bancos.candidato
 
+import linketinder.jdbc.Connect
 import linketinder.usuarios.Candidato
 import linketinder.jdbc.Utils
 
@@ -7,7 +8,7 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class CandidatoJDBC{
+class CandidatoJDBC implements Connect{
 
     Utils conectionBD = new Utils()
     Connection conn = conectionBD.conectar()
@@ -36,7 +37,8 @@ class CandidatoJDBC{
         }
     }
 
-    void deletarCandidato(Scanner leitor) {
+    @Override
+    void deletar(Scanner leitor) {
         String DELETAR_CANDIDATO = "DELETE FROM candidatos CASCADE WHERE cpf = ?"
 
         println "Informe o cpf do candidato: "
@@ -56,7 +58,8 @@ class CandidatoJDBC{
         }
     }
 
-    void atualizarCandidato(Scanner leitor){
+    @Override
+    void atualizar(Scanner leitor){
         println "Informe o código do candidato: "
         int id = Integer.parseInt(leitor.nextLine())
 
@@ -77,7 +80,7 @@ class CandidatoJDBC{
 
             if (qtd > 0) {
 
-                Candidato newCandidate = Candidato.cadastrarCandidato(leitor)
+                Candidato newCandidate = Candidato.criarCandidato(leitor)
 
                 String ATUALIZAR = "UPDATE candidatos SET nome=?, sobrenome=?, dt_nascimento=?, email=?, cpf=?, id_pais=?, cep=?, formacao=?, desc_candidato=?, senha=? WHERE id=?"
 
@@ -109,6 +112,7 @@ class CandidatoJDBC{
         }
     }
 
+    @Override
     List listar() {
         String BUSCAR_TODOS = "SELECT * FROM candidatos"
 

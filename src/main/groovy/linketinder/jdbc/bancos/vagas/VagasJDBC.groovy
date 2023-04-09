@@ -1,5 +1,6 @@
 package linketinder.jdbc.bancos.vagas
 
+import linketinder.jdbc.Connect
 import linketinder.regex.Regex
 import linketinder.vagas.Vagas
 import linketinder.jdbc.Utils
@@ -9,10 +10,8 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class VagasJDBC {
+class VagasJDBC implements Connect{
     Utils conectionBD = new Utils()
-    Regex regex = new Regex();
-    EmpresaJDBC bancoEmpresa = new EmpresaJDBC();
 
     void inserir(Vagas v){
         String INSERIR = "INSERT INTO vagas (id_empresa, nome, desc_vaga, data_criacao, estado, cidade) VALUES (?, ?, ?, ?, ?, ?)";
@@ -38,7 +37,8 @@ class VagasJDBC {
         }
     }
 
-    void deletarVaga(Scanner leitorVaga) {
+    @Override
+    void deletar(Scanner leitorVaga) {
         String DELETAR_VAGA = "DELETE FROM vagas CASCADE WHERE id = ?"
 
         println "Informe o id da vaga: "
@@ -59,7 +59,8 @@ class VagasJDBC {
         }
     }
 
-    void atualizarVaga(Scanner leitorVaga){
+    @Override
+    void atualizar(Scanner leitorVaga){
             println "Informe o código da vaga: "
             int id = Integer.parseInt(leitorVaga.nextLine())
 
@@ -142,6 +143,7 @@ class VagasJDBC {
             }
     }
 
+    @Override
     List listar() {
         String BUSCAR_TODOS = "SELECT * FROM vagas"
 

@@ -1,5 +1,6 @@
 package linketinder;
 
+import linketinder.regex.Regex;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import linketinder.usuarios.Candidato;
@@ -20,30 +21,22 @@ public class TestUsuarios {
 
     @Test
     public void testNaoAceitaNomeForaDoPadrao(){
-        String resultadoEsperado = "Gabriel";
-
-        assertEquals(testRegexUsuarios.getNome(), resultadoEsperado);
+        assert(Regex.validaNome(testRegexUsuarios.getNome()));
     }
 
     @Test
     public void testNaoAceitaEmailForaDoPadrao(){
-        String resultadoEsperado = "gabriel.landi@batutinhas.com";
-
-        assertEquals(testRegexUsuarios.getEmail(), resultadoEsperado);
+        assert(Regex.validaEmail(testRegexUsuarios.getEmail()));
     }
 
 
     @Test
     public void testNaoAceitaDescricaoForaDoPadrao(){
-        String resultadoEsperado = "Um bom estudante";
-
-        assertEquals(testRegexUsuarios.getDescricao(), resultadoEsperado);
+        assert(Regex.validaDescricao(testRegexUsuarios.getDescricao()));
     }
 
     @Test
     public void testNaoAceitaCepForaDoPadrao(){
-        int resultadoEsperado = 12345678;
-
-        assertEquals(testRegexUsuarios.getCep(), resultadoEsperado);
+        assert(Regex.validaCep(testRegexUsuarios.getCep()));
     }
 }

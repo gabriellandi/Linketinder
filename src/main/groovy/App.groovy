@@ -1,5 +1,7 @@
 
 import linketinder.competencias.Competencias
+import linketinder.jdbc.bancos.pais.PaisJDBC
+import linketinder.location.Pais
 import linketinder.regex.Regex
 import linketinder.usuarios.Candidato
 import linketinder.usuarios.Empresa
@@ -15,6 +17,7 @@ class App {
         EmpresaJDBC bancoEmpresa = new EmpresaJDBC()
         CompetenciasJDBC bancoCompetencias = new CompetenciasJDBC()
         VagasJDBC bancoVagas = new VagasJDBC()
+        PaisJDBC bancoPaises = new PaisJDBC()
 
 
         try(Scanner leitor = new Scanner(System.in)){
@@ -56,7 +59,7 @@ class App {
                                         Candidato.apresentarCandidatos(listaCandidatos)
                                         break
                                     case "3":
-                                        List listaCompetencias = bancoCompetencias.listarCompetencias()
+                                        List listaCompetencias = bancoCompetencias.listar()
                                         Competencias.apresentarCompetencias(listaCompetencias)
                                         break
                                     case "4":
@@ -78,18 +81,19 @@ class App {
                                         "2. Cadastrar candidatos\n" +
                                         "3. Cadastrar competencias\n" +
                                         "4. Cadastrar vagas\n" +
-                                        "5. Cadastrar competencia nos candidatos\n" +
-                                        "6. Cadastrar competencia nas vagas\n" +
-                                        "7. Retornar ao menu"
+                                        "5. Cadastrar pais\n" +
+                                        "6. Cadastrar competencia nos candidatos\n" +
+                                        "7. Cadastrar competencia nas vagas\n" +
+                                        "8. Retornar ao menu"
                                 print("Digite um número de 1 a 5: ")
                                 verificador = leitor.nextLine()
                                 switch (verificador){
                                     case "1":
-                                        Empresa novaEmpresa = Empresa.cadastrarEmpresa(leitor)
+                                        Empresa novaEmpresa = Empresa.cadastrarEmpresa(leitor, bancoPaises)
                                         bancoEmpresa.inserir(novaEmpresa)
                                         break
                                     case "2":
-                                        Candidato novoCandidato = Candidato.cadastrarCandidato(leitor)
+                                        Candidato novoCandidato = Candidato.criarCandidato(leitor, bancoPaises)
                                         bancoCandidato.inserir(novoCandidato)
                                         break
                                     case "3":
@@ -101,12 +105,18 @@ class App {
                                         bancoVagas.inserir(novaVaga)
                                         break
                                     case "5":
-                                        Competencias.cadastraCompetenciaCandidato(leitor)
+                                        Pais novoPais = Pais.criarPais(leitor)
+                                        bancoPaises.inserir(novoPais)
                                         break
                                     case "6":
-                                        Competencias.cadastraCompetenciaVaga(leitor)
+                                        Map idsCandidato = Competencias.cadastraCompetenciaCandidato(leitor, bancoCandidato)
+                                        bancoCompetencias.inserirCompetenciasCandidatos(idsCandidato.idCandidato, idsCandidato.idCompetencia)
                                         break
                                     case "7":
+                                        Map idsVagas = Competencias.cadastraCompetenciaVaga(leitor, bancoVagas)
+                                        bancoCompetencias.inserirCompetenciasVagas(idsVagas.idVaga, idsVagas.idCompetencia)
+                                        break
+                                    case "8":
                                         dados = false
                                         break
                                 }
@@ -121,23 +131,27 @@ class App {
                                         "2. Deletar candidatos\n" +
                                         "3. Deletar competencias\n" +
                                         "4. Deletar vagas\n" +
-                                        "5. Retornar ao menu"
+                                        "5. Deletar pais\n" +
+                                        "6. Retornar ao menu"
                                 print("Digite um número de 1 a 5: ")
                                 verificador = leitor.nextLine()
                                 switch (verificador){
                                     case "1":
-                                        bancoEmpresa.deletarEmpresa(leitor)
+                                        bancoEmpresa.deletar(leitor)
                                         break
                                     case "2":
-                                        bancoCandidato.deletarCandidato(leitor)
+                                        bancoCandidato.deletar(leitor)
                                         break
                                     case "3":
-                                        bancoCompetencias.deletarCompetencia(leitor)
+                                        bancoCompetencias.deletar(leitor)
                                         break
                                     case "4":
-                                        bancoVagas.deletarVaga(leitor)
+                                        bancoVagas.deletar(leitor)
                                         break
                                     case "5":
+                                        bancoPaises.deletar(leitor)
+                                        break
+                                    case "6":
                                         dados = false
                                         break
                                 }
@@ -152,29 +166,33 @@ class App {
                                         "2. Editar candidatos\n" +
                                         "3. Editar competencias\n" +
                                         "4. Editar vagas\n" +
-                                        "5. Retornar ao menu"
+                                        "5. Editar pais\n" +
+                                        "6. Retornar ao menu"
                                 print("Digite um número de 1 a 5: ")
                                 verificador = leitor.nextLine()
                                 switch (verificador){
                                     case "1":
-                                        bancoEmpresa.atualizarEmpresa(leitor)
+                                        bancoEmpresa.atualizar(leitor)
                                         break
                                     case "2":
-                                        bancoCandidato.atualizarCandidato(leitor)
+                                        bancoCandidato.atualizar(leitor)
                                         break
                                     case "3":
-                                        bancoCompetencias.atualizarCompetencia(leitor)
+                                        bancoCompetencias.atualizar(leitor)
                                         break
                                     case "4":
-                                        bancoVagas.atualizarVaga(leitor)
+                                        bancoVagas.atualizar(leitor)
                                         break
                                     case "5":
+                                        bancoPaises.atualizar(leitor)
+                                        break
+                                    case "6":
                                         dados = false
                                         break
                                 }
                             }
                             break
-                        case "11":
+                        case "5":
                             app = false
                             break
                     }
