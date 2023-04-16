@@ -1,6 +1,6 @@
 package linketinder.location
 
-import linketinder.jdbc.bancos.competencias.CompetenciasJDBC
+
 import linketinder.regex.Regex
 
 class Pais {
@@ -18,5 +18,13 @@ class Pais {
         }
 
         return novoPais
+    }
+
+    static void apresentaPais(List paises){
+        int count = 1
+        paises.forEach { pais ->
+            println("${count} - ${pais.nome}")
+            count++
+        }
     }
 }

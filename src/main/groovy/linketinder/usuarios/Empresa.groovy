@@ -1,7 +1,7 @@
 package linketinder.usuarios
 
 import groovy.transform.ToString
-import linketinder.jdbc.bancos.pais.PaisJDBC
+import linketinder.DAO.bancos.pais.PaisDAO
 import linketinder.regex.Regex
 
 @ToString
@@ -27,7 +27,7 @@ class Empresa extends Usuario {
         this.senha = senha
     }
 
-    static Empresa cadastrarEmpresa(Scanner leitor, PaisJDBC bancoPaises){
+    static Empresa cadastrarEmpresa(Scanner leitor, PaisDAO bancoPaises){
         Empresa empresa = new Empresa()
         println "Digite o nome da sua empresa"
         empresa.setNome(leitor.nextLine())

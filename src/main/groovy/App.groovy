@@ -1,23 +1,31 @@
-
+import linketinder.DAO.Access
+import linketinder.DAO.CandidatoAccess
+import linketinder.DAO.CompetenciaAccess
+import linketinder.DAO.EmpresaAccess
+import linketinder.DAO.PaisAccess
+import linketinder.DAO.VagasAccess
 import linketinder.competencias.Competencias
-import linketinder.jdbc.bancos.pais.PaisJDBC
+import linketinder.DAO.bancos.pais.PaisDAO
 import linketinder.location.Pais
 import linketinder.regex.Regex
 import linketinder.usuarios.Candidato
 import linketinder.usuarios.Empresa
 import linketinder.vagas.Vagas
-import linketinder.jdbc.bancos.candidato.CandidatoJDBC
-import linketinder.jdbc.bancos.competencias.CompetenciasJDBC
-import linketinder.jdbc.bancos.empresa.EmpresaJDBC
-import linketinder.jdbc.bancos.vagas.VagasJDBC
+import linketinder.DAO.bancos.candidato.CandidatoDAO
+import linketinder.DAO.bancos.competencias.CompetenciasDAO
+import linketinder.DAO.bancos.empresa.EmpresaDAO
+import linketinder.DAO.bancos.vagas.VagasDAO
 
 class App {
+
+    private static Access bankAcess;
+
     static void main(String[] args) {
-        CandidatoJDBC bancoCandidato = new CandidatoJDBC()
-        EmpresaJDBC bancoEmpresa = new EmpresaJDBC()
-        CompetenciasJDBC bancoCompetencias = new CompetenciasJDBC()
-        VagasJDBC bancoVagas = new VagasJDBC()
-        PaisJDBC bancoPaises = new PaisJDBC()
+        CandidatoDAO bancoCandidato = new CandidatoDAO()
+        EmpresaDAO bancoEmpresa = new EmpresaDAO()
+        CompetenciasDAO bancoCompetencias = new CompetenciasDAO()
+        VagasDAO bancoVagas = new VagasDAO()
+        PaisDAO bancoPaises = new PaisDAO()
 
 
         try(Scanner leitor = new Scanner(System.in)){
@@ -46,27 +54,37 @@ class App {
                                         "2. Listar candidatos\n" +
                                         "3. Listar competencias\n" +
                                         "4. Listar vagas\n" +
-                                        "5. Retornar ao menu"
+                                        "5. Listar paises\n" +
+                                        "6. Retornar ao menu"
                                 print("Digite um número de 1 a 5: ")
                                 verificador = leitor.nextLine()
                                 switch (verificador){
                                     case "1":
-                                        List listaEmpresas = bancoEmpresa.listar()
+                                        setBank("empresa")
+                                        List listaEmpresas = bankAcess.listar()
                                         Empresa.apresentarEmpresa(listaEmpresas)
                                         break
                                     case "2":
-                                        List listaCandidatos = bancoCandidato.listar()
+                                        setBank("candidato")
+                                        List listaCandidatos = bankAcess.listar()
                                         Candidato.apresentarCandidatos(listaCandidatos)
                                         break
                                     case "3":
-                                        List listaCompetencias = bancoCompetencias.listar()
+                                        setBank("competencia")
+                                        List listaCompetencias = bankAcess.listar()
                                         Competencias.apresentarCompetencias(listaCompetencias)
                                         break
                                     case "4":
-                                        List listaVagas = bancoVagas.listar()
+                                        setBank("vagas")
+                                        List listaVagas = bankAcess.listar()
                                         Vagas.apresentarVagas(listaVagas)
                                         break
                                     case "5":
+                                        setBank("pais")
+                                        List listaPaises = bankAcess.listar()
+                                        Pais.apresentaPais(listaPaises)
+                                        break
+                                    case "6":
                                         dados = false
                                         break
                                 }
@@ -89,24 +107,29 @@ class App {
                                 verificador = leitor.nextLine()
                                 switch (verificador){
                                     case "1":
+                                        setBank("empresa")
                                         Empresa novaEmpresa = Empresa.cadastrarEmpresa(leitor, bancoPaises)
-                                        bancoEmpresa.inserir(novaEmpresa)
+                                        bankAcess.inserir(novaEmpresa)
                                         break
                                     case "2":
+                                        setBank("candidato")
                                         Candidato novoCandidato = Candidato.criarCandidato(leitor, bancoPaises)
-                                        bancoCandidato.inserir(novoCandidato)
+                                        bankAcess.insert(novoCandidato)
                                         break
                                     case "3":
+                                        setBank("competencia")
                                         Competencias novaCompetencia = Competencias.cadastrarCompetencia(leitor)
-                                        bancoCompetencias.inserir(novaCompetencia)
+                                        bankAcess.inserir(novaCompetencia)
                                         break
                                     case "4":
+                                        setBank("vagas")
                                         Vagas novaVaga = Vagas.inserirVaga(leitor)
-                                        bancoVagas.inserir(novaVaga)
+                                        bankAcess.inserir(novaVaga)
                                         break
                                     case "5":
+                                        setBank("pais")
                                         Pais novoPais = Pais.criarPais(leitor)
-                                        bancoPaises.inserir(novoPais)
+                                        bankAcess.inserir(novoPais)
                                         break
                                     case "6":
                                         Map idsCandidato = Competencias.cadastraCompetenciaCandidato(leitor, bancoCandidato)
@@ -137,19 +160,24 @@ class App {
                                 verificador = leitor.nextLine()
                                 switch (verificador){
                                     case "1":
-                                        bancoEmpresa.deletar(leitor)
+                                        setBank("empresa")
+                                        bankAcess.deletar(leitor)
                                         break
                                     case "2":
-                                        bancoCandidato.deletar(leitor)
+                                        setBank("candidato")
+                                        bankAcess.deletar(leitor)
                                         break
                                     case "3":
-                                        bancoCompetencias.deletar(leitor)
+                                        setBank("competencias")
+                                        bankAcess.deletar(leitor)
                                         break
                                     case "4":
-                                        bancoVagas.deletar(leitor)
+                                        setBank("vagas")
+                                        bankAcess.deletar(leitor)
                                         break
                                     case "5":
-                                        bancoPaises.deletar(leitor)
+                                        setBank("pais")
+                                        bankAcess.deletar(leitor)
                                         break
                                     case "6":
                                         dados = false
@@ -172,19 +200,24 @@ class App {
                                 verificador = leitor.nextLine()
                                 switch (verificador){
                                     case "1":
-                                        bancoEmpresa.atualizar(leitor)
+                                        setBank("empresa")
+                                        bankAcess.atualizar(leitor)
                                         break
                                     case "2":
-                                        bancoCandidato.atualizar(leitor)
+                                        setBank("candidato")
+                                        bankAcess.atualizar(leitor)
                                         break
                                     case "3":
-                                        bancoCompetencias.atualizar(leitor)
+                                        setBank("competencias")
+                                        bankAcess.atualizar(leitor)
                                         break
                                     case "4":
-                                        bancoVagas.atualizar(leitor)
+                                        setBank("vagas")
+                                        bankAcess.atualizar(leitor)
                                         break
                                     case "5":
-                                        bancoPaises.atualizar(leitor)
+                                        setBank("pais")
+                                        bankAcess.atualizar(leitor)
                                         break
                                     case "6":
                                         dados = false
@@ -200,6 +233,26 @@ class App {
                     println "Digite uma opção válida"
                 }
             }
+        }
+    }
+
+    private static void setBank(String type) {
+        switch (type){
+            case "candidato":
+                bankAcess = new CandidatoAccess()
+                break
+            case "competencia":
+                bankAcess = new CompetenciaAccess()
+                break
+            case "empresa":
+                bankAcess = new EmpresaAccess()
+                break
+            case "pais":
+                bankAcess = new PaisAccess()
+                break
+            case "vagas":
+                bankAcess = new VagasAccess()
+                break
         }
     }
 }

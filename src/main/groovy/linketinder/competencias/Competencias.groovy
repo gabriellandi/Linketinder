@@ -1,13 +1,13 @@
 package linketinder.competencias
 
-import linketinder.jdbc.bancos.candidato.CandidatoJDBC
-import linketinder.jdbc.bancos.competencias.CompetenciasJDBC
-import linketinder.jdbc.bancos.vagas.VagasJDBC
+import linketinder.DAO.bancos.candidato.CandidatoDAO
+import linketinder.DAO.bancos.competencias.CompetenciasDAO
+import linketinder.DAO.bancos.vagas.VagasDAO
 import linketinder.usuarios.Candidato
 import linketinder.vagas.Vagas
 
 class Competencias {
-    String nome;
+    String nome
 
     Competencias(){
         this.nome = nome
@@ -28,13 +28,13 @@ class Competencias {
     }
 
     boolean validaCompetencia(String competencia){
-        CompetenciasJDBC bancoCompetencias = new CompetenciasJDBC()
+        CompetenciasDAO bancoCompetencias = new CompetenciasDAO()
         List listaCompetencias = bancoCompetencias.verificaCompetencias()
         return listaCompetencias.contains(competencia.toUpperCase())
     }
 
-    static Map cadastraCompetenciaCandidato(Scanner leitor, CandidatoJDBC bancoCandidato){
-        CompetenciasJDBC bancoCompetencias = new CompetenciasJDBC()
+    static Map cadastraCompetenciaCandidato(Scanner leitor, CandidatoDAO bancoCandidato){
+        CompetenciasDAO bancoCompetencias = new CompetenciasDAO()
         Map ids = [:]
 
         println "Digite o numero correspondente ao ID do candidato que você deseja inserir a competencia"
@@ -67,8 +67,8 @@ class Competencias {
         return ids
     }
 
-    static Map cadastraCompetenciaVaga(Scanner leitor, VagasJDBC bancoVagas){
-        CompetenciasJDBC bancoCompetencias = new CompetenciasJDBC()
+    static Map cadastraCompetenciaVaga(Scanner leitor, VagasDAO bancoVagas){
+        CompetenciasDAO bancoCompetencias = new CompetenciasDAO()
         Map ids = [:]
 
         println "Digite o numero correspondente ao ID da vaga que você deseja inserir a competencia"

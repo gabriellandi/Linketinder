@@ -1,7 +1,7 @@
 package linketinder.usuarios
 
 import groovy.transform.ToString
-import linketinder.jdbc.bancos.pais.PaisJDBC
+import linketinder.DAO.bancos.pais.PaisDAO
 import linketinder.regex.Regex
 
 import java.text.SimpleDateFormat
@@ -39,7 +39,7 @@ class Candidato extends Usuario{
         this.senha = senha
     }
 
-    static Candidato criarCandidato(Scanner leitor, PaisJDBC bancoPaises){
+    static Candidato criarCandidato(Scanner leitor, PaisDAO bancoPaises){
         Candidato newCandidate = new Candidato()
 
         println "Digite o seu nome"

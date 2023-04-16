@@ -1,6 +1,6 @@
 package linketinder.vagas
 
-import linketinder.jdbc.bancos.empresa.EmpresaJDBC
+import linketinder.DAO.bancos.empresa.EmpresaDAO
 import linketinder.regex.Regex
 import linketinder.usuarios.Empresa
 
@@ -32,7 +32,7 @@ class Vagas {
 
     static Vagas inserirVaga(Scanner leitor){
         Vagas novaVaga = new Vagas()
-        EmpresaJDBC bancoEmpresa = new EmpresaJDBC()
+        EmpresaDAO bancoEmpresa = new EmpresaDAO()
 
         println "Digite um nome para vaga"
         novaVaga.setNomeVaga(leitor.nextLine())
