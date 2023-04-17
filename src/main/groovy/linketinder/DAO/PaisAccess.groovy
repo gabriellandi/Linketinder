@@ -1,7 +1,7 @@
 package linketinder.DAO
 
 import linketinder.DAO.bancos.IConnect
-import linketinder.DAO.bancos.pais.PaisDAO
+import linketinder.DAO.bancos.PaisDAO
 
 class PaisAccess extends Access{
     @Override

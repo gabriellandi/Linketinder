@@ -1,46 +1,14 @@
-package linketinder.usuarios
+package linketinder.View
 
-import groovy.transform.ToString
-import linketinder.DAO.bancos.pais.PaisDAO
-import linketinder.regex.Regex
+import linketinder.Controller.CandidatoControler
+import linketinder.Controller.PaisController
+import linketinder.Model.CandidatoModel
+import linketinder.Model.Regex
 
-import java.text.SimpleDateFormat
+class CandidatoView {
 
-@ToString
-class Candidato extends Usuario{
-    Long cpf
-    String sobrenome
-    Date dtNascimento
-    String formacao
-
-    Candidato(){
-        this.sobrenome = sobrenome
-        this.cpf = cpf
-        this.nome = nome
-        this.email = email
-        this.descricao = descricao
-        this.cep = cep
-        this.dtNascimento = dtNascimento
-        this.pais = pais
-        this.formacao = formacao
-        this.senha = senha
-    }
-
-    Candidato(String sobrenome, Long cpf, String nome, String email, String descricao, int cep, Date dtNascimento, int pais, String formacao, String senha) {
-        this.sobrenome = sobrenome
-        this.cpf = cpf
-        this.nome = nome
-        this.email = email
-        this.descricao = descricao
-        this.cep = cep
-        this.dtNascimento = dtNascimento
-        this.pais = pais
-        this.formacao = formacao
-        this.senha = senha
-    }
-
-    static Candidato criarCandidato(Scanner leitor, PaisDAO bancoPaises){
-        Candidato newCandidate = new Candidato()
+    static CandidatoModel criarCandidato(Scanner leitor){
+        CandidatoModel newCandidate = new CandidatoModel()
 
         println "Digite o seu nome"
         newCandidate.setNome(leitor.nextLine())
@@ -92,8 +60,8 @@ class Candidato extends Usuario{
         }
         newCandidate.setDtNascimento(dtNascimento)
 
-        List paises = bancoPaises.listar()
-        apresentarPaises(paises)
+        List paises = PaisController.listaPaises()
+        PaisView.apresentarPaises()
         println "Digite o numero correspondente ao país onde você mora."
         int num = leitor.nextInt()
         leitor.nextLine()
@@ -121,13 +89,19 @@ class Candidato extends Usuario{
         return newCandidate
     }
 
-    void setDtNascimento(String data) {
-        def formatoData = new SimpleDateFormat("dd/MM/yyyy")
-        def dtNascimento = formatoData.parse(data) as Date
-        this.dtNascimento = dtNascimento
+    static void cadastrarCandidato(Scanner leitor){
+        CandidatoModel newCandidate = criarCandidato(leitor)
+
+        if(CandidatoControler.salvaUsuario(newCandidate)){
+            println "Candidato salvo com sucesso"
+        } else {
+            println "O candidato nao foi salvo, contate nosso suporte"
+        }
     }
 
-    static void apresentarCandidatos(List candidatos){
+    static void apresentarCandidatos(){
+        List candidatos = CandidatoControler.listaUsuarios()
+
         int count = 1
         candidatos.forEach { candidato ->
             println("${count} - ${candidato.descricao}")
@@ -137,22 +111,36 @@ class Candidato extends Usuario{
         }
     }
 
-    boolean equals(o) {
-        if (this.is(o)) return true
-        if (o == null || getClass() != o.class) return false
+    static void atualizaCandidato(Scanner leitor){
+        println "Informe o cpf do candidato a ser atualizado: "
+        Long cpf = Long.parseLong(leitor.nextLine())
+        while(!Regex.validaCpf(cpf)){
+            println "Digite um numero de 11 caracteres"
+            cpf = Long.parseLong(leitor.nextLine())
+        }
 
-        Candidato that = (Candidato) o
+        CandidatoModel candidatoAtualizado = criarCandidato(leitor)
 
-        if (cpf != that.cpf) return false
-        if (idade != that.idade) return false
-
-        return true
+        if(CandidatoControler.atualizaCandidato(candidatoAtualizado, cpf.toString())){
+            println "Candidato atualizado com sucesso"
+        } else {
+            println "O candidato nao foi atualizado, verifique se o cpf esta correto"
+        }
     }
 
-    int hashCode() {
-        int result
-        result = cpf.hashCode()
-        result = 31 * result + idade.hashCode()
-        return result
+    static void deletaCandidato(Scanner leitor){
+        println "Informe o cpf do candidato a ser deletado: "
+        Long cpf = Long.parseLong(leitor.nextLine())
+        while(!Regex.validaCpf(cpf)){
+            println "Digite um numero de 11 caracteres"
+            cpf = Long.parseLong(leitor.nextLine())
+        }
+
+        if(CandidatoControler.deletaCandidato(cpf.toString())){
+            println "O candidato foi deletado"
+        } else {
+            println "Verifique o cpf digitado, o dado nao foi localizado no banco"
+        }
     }
+
 }

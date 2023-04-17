@@ -1,11 +1,11 @@
 package linketinder.DAO.bancos
 
 interface IConnect {
-    void inserir(Object objeto)
+    boolean inserir(Object objeto)
 
     List listar()
 
-    void deletar(Scanner leitor)
+    boolean deletar(String fitraDadoParaDeletar)
 
-    void atualizar(Scanner leitor)
+    boolean atualizar(Object objeto, String filtraDadoParaAtualizar)
 }

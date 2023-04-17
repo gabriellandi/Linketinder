@@ -1,8 +1,7 @@
-package linketinder.DAO.bancos.empresa
+package linketinder.DAO.bancos
 
-import linketinder.DAO.bancos.IConnect
-import linketinder.DAO.bancos.Utils
-import linketinder.usuarios.Empresa
+
+import linketinder.Model.EmpresaModel
 
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -12,8 +11,8 @@ class EmpresaDAO implements IConnect{
     Utils conectionBD = new Utils()
 
     @Override
-    void inserir(Object objeto) {
-        Empresa newEmpresa = (Empresa) objeto
+    boolean inserir(Object objeto) {
+        EmpresaModel newEmpresa = (EmpresaModel) objeto
         String INSERIR = "INSERT INTO empresas (cnpj, email_coorp, desc_empresa, id_pais, cep, senha, nome_empresa) VALUES (?, ?, ?, ?, ?, ?, ?)"
         try{
             Connection conn = conectionBD.conectar()
@@ -26,82 +25,62 @@ class EmpresaDAO implements IConnect{
             salvar.setString(6, newEmpresa.senha)
             salvar.setString(7, newEmpresa.nome)
             salvar.executeUpdate()
-            System.out.println("Empresa salva com sucesso!")
+            return true
         }catch(Exception e){
             e.printStackTrace()
-            System.err.println("Erro salvando empresa")
             System.exit(-42)
+            return false
         }
-        println "ok"
     }
 
     @Override
-    void deletar(Scanner leitorEmpresa) {
+    boolean deletar(String fitraDadoParaDeletar) {
         String DELETAR_EMPRESA = "DELETE FROM empresas CASCADE WHERE cnpj = ?"
-
-        println "Informe o cnpj da empresa: "
-        String cnpj = leitorEmpresa.nextLine()
-
         Connection conn = conectionBD.conectar()
         try {
             PreparedStatement delEmpresa = conn.prepareStatement(DELETAR_EMPRESA)
-            delEmpresa.setString(1, cnpj)
-            delEmpresa.executeUpdate()
+            delEmpresa.setString(1, fitraDadoParaDeletar)
+            int rowsDeleted = delEmpresa.executeUpdate();
+
             delEmpresa.close()
             conectionBD.desconectar(conn)
-            println "A empresa foi deletada"
+
+            if (rowsDeleted > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e){
             e.printStackTrace()
-            System.err.println("Erro deletando a empresa")
             System.exit(-42)
         }
     }
 
     @Override
-    void atualizar(Scanner leitorEmpresa) {
-        println "Informe o código da empresa: "
-        int id = Integer.parseInt(leitorEmpresa.nextLine())
-
-        String BUSCAR_POR_ID = "SELECT * FROM empresas WHERE id=?"
+    boolean atualizar(Object objeto, String filtraDadoParaAtualizar) {
+        EmpresaModel novaEmpresa = (EmpresaModel) objeto
 
         try {
             Connection conn = conectionBD.conectar()
-            PreparedStatement vagas = conn.prepareStatement(
-                    BUSCAR_POR_ID,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            )
-            vagas.setInt(1, id)
-            ResultSet res = vagas.executeQuery()
+            String ATUALIZAR = "UPDATE empresas SET nome_empresa=?, cnpj=?, email_coorp=?, desc_empresa=?, id_pais=?, cep=?, senha=? WHERE cnpj=?"
+            PreparedStatement upd = conn.prepareStatement(ATUALIZAR)
 
-            res.last()
-            int qtd = res.getRow()
-            res.beforeFirst()
+            upd.setString(1, novaEmpresa.getNome())
+            upd.setLong(2, novaEmpresa.getCnpj())
+            upd.setString(3, novaEmpresa.getEmail())
+            upd.setString(4, novaEmpresa.getDescricao())
+            upd.setInt(5, novaEmpresa.getPais())
+            upd.setInt(6, novaEmpresa.getCep())
+            upd.setString(7, novaEmpresa.getSenha())
+            upd.setString(8 , filtraDadoParaAtualizar)
+            int rowsUpdated = upd.executeUpdate()
 
-            if (qtd > 0) {
-                Empresa novaEmpresa = Empresa.cadastrarEmpresa(leitorEmpresa)
-
-                String ATUALIZAR = "UPDATE empresas SET nome_empresa=?, cnpj=?, email_coorp=?, desc_empresa=?, id_pais=?, cep=?, senha=? WHERE id=?"
-                PreparedStatement upd = conn.prepareStatement(ATUALIZAR)
-
-                upd.setString(1, novaEmpresa.getNome())
-                upd.setLong(2, novaEmpresa.getCnpj())
-                upd.setString(3, novaEmpresa.getEmail())
-                upd.setString(4, novaEmpresa.getDescricao())
-                upd.setInt(5, novaEmpresa.getPais())
-                upd.setInt(6, novaEmpresa.getCep())
-                upd.setString(7, novaEmpresa.getSenha())
-                upd.setInt(8 , id)
-                upd.executeUpdate()
-                upd.close()
-                conectionBD.desconectar(conn)
-                System.out.println("Empresa atualizada com sucesso!")
-            }
-
+            upd.close()
             conectionBD.desconectar(conn)
+
+            return rowsUpdated > 0
         } catch (Exception e) {
             e.printStackTrace()
-            System.err.println("Erro atualizando a empresa")
             System.exit(-42)
         }
     }

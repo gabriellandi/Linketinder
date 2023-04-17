@@ -1,38 +1,13 @@
-package linketinder.vagas
+package linketinder.View
 
-import linketinder.DAO.bancos.empresa.EmpresaDAO
-import linketinder.regex.Regex
-import linketinder.usuarios.Empresa
+import linketinder.Controller.EmpresaController
+import linketinder.Controller.VagaController
+import linketinder.Model.Regex
+import linketinder.Model.VagaModel
 
-class Vagas {
-    String nomeVaga;
-    int idEmpresa;
-    String descVaga;
-    String estado;
-    String cidade;
-    Date dataCriacao;
-
-    Vagas(String nomeVaga, int idEmpresa, String descVaga, String estado, String cidade, Date dataCriacao) {
-        this.nomeVaga = nomeVaga
-        this.idEmpresa = idEmpresa
-        this.descVaga = descVaga
-        this.estado = estado
-        this.cidade = cidade
-        this.dataCriacao = dataCriacao
-    }
-
-    Vagas(){
-        this.nomeVaga = nomeVaga
-        this.idEmpresa = idEmpresa
-        this.descVaga = descVaga
-        this.estado = estado
-        this.cidade = cidade
-        this.dataCriacao = dataCriacao
-    }
-
-    static Vagas inserirVaga(Scanner leitor){
-        Vagas novaVaga = new Vagas()
-        EmpresaDAO bancoEmpresa = new EmpresaDAO()
+class VagasView {
+    static VagaModel criarVaga(Scanner leitor){
+        VagaModel novaVaga = new VagaModel()
 
         println "Digite um nome para vaga"
         novaVaga.setNomeVaga(leitor.nextLine())
@@ -42,8 +17,8 @@ class Vagas {
         }
 
         println "Digite o numero correspondente ao ID da empresa que está criando a vaga"
-        List listaEmpresas = bancoEmpresa.listar()
-        Empresa.apresentarEmpresa(listaEmpresas)
+        List listaEmpresas = EmpresaController.listaEmpresas()
+        EmpresaView.apresentarEmpresa()
         int num = leitor.nextInt()
         leitor.nextLine()
         while(num <= 0 || num > listaEmpresas.size()){
@@ -79,7 +54,17 @@ class Vagas {
         return novaVaga
     }
 
-    static void apresentarVagas(List vagas){
+    static void cadastraVaga(Scanner leitor){
+        VagaModel novaVaga = criarVaga(leitor)
+        if(VagaController.salvaVaga(novaVaga)){
+            println "Vaga salva com sucesso"
+        }else{
+            println "A vaga nao foi salva contate nosso suporte"
+        }
+    }
+
+    static void apresentarVagas(){
+        List vagas = VagaController.listaVagas()
         int count = 1
         vagas.forEach {vaga->
             println("${count} - ${vaga.nome}")
@@ -87,6 +72,30 @@ class Vagas {
             println("Estado: ${vaga.estado}")
             println("Cidade: ${vaga.cidade}")
             count++
+        }
+    }
+
+    static void deletaVaga(Scanner leitor){
+        println "Informe o id da vaga que deseja deletar: "
+        int id = Integer.parseInt(leitor.nextLine())
+
+        if(VagaController.deletaVaga(id.toString())){
+            println "Vaga deletada com sucesso"
+        }else{
+            println "Verifique se o id digitado existe"
+        }
+    }
+
+    static void editaVaga(Scanner leitor){
+        println "Informe o id da vaga, que deseja atualizar: "
+        int id = Integer.parseInt(leitor.nextLine())
+
+        VagaModel vagaAtualizada = criarVaga(leitor)
+
+        if(VagaController.atualizaVaga(vagaAtualizada, id.toString())){
+            println "Vaga atualizada com sucesso"
+        }else{
+            println "Verifique o id da vaga digitada"
         }
     }
 }

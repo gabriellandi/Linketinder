@@ -1,34 +1,14 @@
-package linketinder.usuarios
+package linketinder.View
 
-import groovy.transform.ToString
-import linketinder.DAO.bancos.pais.PaisDAO
-import linketinder.regex.Regex
 
-@ToString
-class Empresa extends Usuario {
-    Long cnpj
+import linketinder.Controller.EmpresaController
+import linketinder.Controller.PaisController
+import linketinder.Model.Regex
+import linketinder.Model.EmpresaModel
 
-    Empresa(Long cnpj, int pais, String nome, String email, String descricao, int cep, String senha) {
-        this.cnpj = cnpj
-        this.pais = pais
-        this.nome = nome
-        this.email = email
-        this.descricao = descricao
-        this.cep = cep
-        this.senha = senha
-    }
-    Empresa(){
-        this.cnpj = cnpj
-        this.pais = pais
-        this.nome = nome
-        this.email = email
-        this.descricao = descricao
-        this.cep = cep
-        this.senha = senha
-    }
-
-    static Empresa cadastrarEmpresa(Scanner leitor, PaisDAO bancoPaises){
-        Empresa empresa = new Empresa()
+class EmpresaView {
+    static EmpresaModel criarEmpresa(Scanner leitor){
+        EmpresaModel empresa = new EmpresaModel()
         println "Digite o nome da sua empresa"
         empresa.setNome(leitor.nextLine())
         while(!Regex.validaNome(empresa.getNome())){
@@ -50,8 +30,8 @@ class Empresa extends Usuario {
             empresa.setCnpj(Long.parseLong(leitor.nextLine()))
         }
 
-        List paises = bancoPaises.listar()
-        apresentarPaises(paises)
+        List paises = PaisController.listaPaises()
+        PaisView.apresentarPaises()
         println "Digite o numero correspondente ao país onde sua empresa está localizada."
         int num = leitor.nextInt()
         leitor.nextLine()
@@ -86,7 +66,17 @@ class Empresa extends Usuario {
         return empresa
     }
 
-    static void apresentarEmpresa(List listaEmpresa){
+    static void cadastraEmpresa(Scanner leitor){
+        EmpresaModel novaEmpresa = criarEmpresa(leitor)
+        if(EmpresaController.salvarEmpresa(novaEmpresa)){
+            println "Empresa cadastrada com sucesso"
+        }else{
+            println "A empresa nao foi salva, contate nosso suporte"
+        }
+    }
+
+    static void apresentarEmpresa(){
+        List listaEmpresa = EmpresaController.listaEmpresas()
         int count = 1
         listaEmpresa.forEach { empresa ->
             println("${count} - ${empresa.nome}")
@@ -96,18 +86,35 @@ class Empresa extends Usuario {
         }
     }
 
-    boolean equals(o) {
-        if (this.is(o)) return true
-        if (o == null || getClass() != o.class) return false
+    static void atualizaEmpresa(Scanner leitor){
+        println "Informe o cnpj do candidato a ser atualizado: "
+        Long cnpj = Long.parseLong(leitor.nextLine())
+        while(!Regex.validaCnpj(cnpj)){
+            println "Digite um numero de 14 caracteres"
+            cnpj = Long.parseLong(leitor.nextLine())
+        }
 
-        Empresa that = (Empresa) o
+        EmpresaModel empresaAtualizado = criarEmpresa(leitor)
 
-        if (cnpj != that.cnpj) return false
-
-        return true
+        if(EmpresaController.atualizaEmpresa(empresaAtualizado, cnpj.toString())){
+            println "Empresa atualizada com sucesso"
+        } else {
+            println "A empresa nao foi atualizado, verifique se o cnpj esta correto"
+        }
     }
 
-    int hashCode() {
-        return cnpj.hashCode()
+    static void deletaEmpresa(Scanner leitor){
+        println "Informe o cnpj da empresa a ser deletado: "
+        Long cnpj = Long.parseLong(leitor.nextLine())
+        while(!Regex.validaCnpj(cnpj)){
+            println "Digite um numero de 14 caracteres"
+            cnpj = Long.parseLong(leitor.nextLine())
+        }
+
+        if(EmpresaController.deletaEmpresa(cnpj.toString())){
+            println "Empresa deletada com sucesso"
+        } else {
+            println "A empresa nao foi deletada, verifique se o cnpj esta correto"
+        }
     }
 }

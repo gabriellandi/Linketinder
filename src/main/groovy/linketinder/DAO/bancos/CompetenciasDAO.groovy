@@ -1,8 +1,6 @@
-package linketinder.DAO.bancos.competencias
+package linketinder.DAO.bancos
 
-import linketinder.competencias.Competencias
-import linketinder.DAO.bancos.IConnect
-import linketinder.DAO.bancos.Utils
+import linketinder.Model.Competencias
 
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -12,23 +10,27 @@ class CompetenciasDAO implements IConnect {
     Utils conectionBD = new Utils()
 
     @Override
-    void inserir(Object objeto){
+    boolean inserir(Object objeto){
         Competencias c = (Competencias) objeto
-        String INSERIR = "INSERT INTO (nome) competencias VALUES (?)"
+        String INSERIR = "INSERT INTO competencias (nome_competencia) VALUES (?)"
         try{
             Connection conn = conectionBD.conectar()
             PreparedStatement salvar = conn.prepareStatement(INSERIR)
-
             salvar.setString(1, c.nome)
-            salvar.executeUpdate()
-            System.out.println("Competencia salva com sucesso!")
+
+            int rowsUpdated = salvar.executeUpdate()
+
+            salvar.close()
+            conectionBD.desconectar(conn)
+
+            return rowsUpdated > 0
         }catch (Exception e){
             e.printStackTrace()
-            System.err.println("Erro salvando competencia")
             System.exit(-42)
         }
     }
 
+    @Override
     List listar() {
         String BUSCAR_TODOS = "SELECT * FROM competencias"
 
@@ -62,71 +64,46 @@ class CompetenciasDAO implements IConnect {
         }
     }
 
-    void atualizar(Scanner leitorCompetencia){
-        println "Informe o código da competencia: "
-        int id = Integer.parseInt(leitorCompetencia.nextLine())
-
-        String BUSCAR_POR_ID = "SELECT * FROM competencias WHERE id=?"
-
+    @Override
+    boolean atualizar(Object objeto, String filtraDadoParaAtualizar){
+        Competencias competenciaAtualizada = (Competencias) objeto
         try {
             Connection conn = conectionBD.conectar()
-            PreparedStatement vagas = conn.prepareStatement(
-                    BUSCAR_POR_ID,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            )
-            vagas.setInt(1, id)
-            ResultSet res = vagas.executeQuery()
+            String ATUALIZAR = "UPDATE competencias SET UPPER(nome_competencia)=? WHERE (nome_competencia)=?"
+            PreparedStatement upd = conn.prepareStatement(ATUALIZAR)
 
-            res.last()
-            int qtd = res.getRow()
-            res.beforeFirst()
+            upd.setString(1, competenciaAtualizada.nome)
+            upd.setString(2, filtraDadoParaAtualizar)
+            int rowsUpdated = upd.executeUpdate()
 
-            if (qtd > 0) {
-                println "Digite um nome para a competencia"
-                String nome = leitorCompetencia.nextLine()
-                while(verificaCompetencias().contains(nome.toUpperCase())){
-                    println "Esta competencia já existe no banco de dados"
-                    nome = leitorCompetencia.nextLine()
-                }
-
-                String ATUALIZAR = "UPDATE competencias SET nome_competencia=? WHERE id=?"
-                PreparedStatement upd = conn.prepareStatement(ATUALIZAR)
-
-                upd.setString(1, nome)
-                upd.setInt(2, id)
-                upd.executeUpdate()
-                upd.close()
-                conectionBD.desconectar(conn)
-                System.out.println("Competencia atualizada com sucesso!")
-            }
-
+            upd.close()
             conectionBD.desconectar(conn)
+
+            return rowsUpdated > 0
         } catch (Exception e) {
             e.printStackTrace()
-            System.err.println("Erro atualizando a competencia")
             System.exit(-42)
         }
     }
 
-    void deletar(Scanner leitorCompetencia) {
+    @Override
+    boolean deletar(String fitraDadoParaDeletar) {
         String DELETAR_COMP = "DELETE FROM competencias CASCADE WHERE id = ?"
-
-        println "Informe o id da competencia: "
-        int id = Integer.parseInt(leitorCompetencia.nextLine())
-
+        int id = Integer.parseInt(fitraDadoParaDeletar)
         try {
             Connection conn = conectionBD.conectar()
             PreparedStatement delCompetencia = conn.prepareStatement(DELETAR_COMP)
             delCompetencia.setInt(1,id)
-            delCompetencia.executeUpdate()
+            int rowsUpdated = delCompetencia.executeUpdate()
+
             delCompetencia.close()
             conectionBD.desconectar(conn)
-            println "A competencia foi deletado"
+
+            return rowsUpdated > 0
         } catch (Exception e){
             e.printStackTrace()
-            System.err.println("Erro deletando a competencia")
             System.exit(-42)
+
         }
     }
 

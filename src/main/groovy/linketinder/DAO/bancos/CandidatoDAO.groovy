@@ -1,8 +1,8 @@
-package linketinder.DAO.bancos.candidato
+package linketinder.DAO.bancos
 
-import linketinder.DAO.bancos.IConnect
-import linketinder.DAO.bancos.Utils
-import linketinder.usuarios.Candidato
+
+import linketinder.Model.CandidatoModel
+import linketinder.View.CandidatoView
 
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -14,8 +14,8 @@ class CandidatoDAO implements IConnect{
     Connection conn = conectionBD.conectar()
 
     @Override
-    void inserir(Object objeto) {
-        Candidato newCandidate = (Candidato) objeto
+    boolean inserir(Object objeto) {
+        CandidatoModel newCandidate = (CandidatoModel) objeto
         String INSERIR = "INSERT INTO candidatos (nome, sobrenome, dt_nascimento, email, cpf, id_pais, cep, formacao, desc_candidato, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         def dataSql = new java.sql.Date(newCandidate.dtNascimento.time)
         try{
@@ -30,87 +30,75 @@ class CandidatoDAO implements IConnect{
             salvar.setString(8, newCandidate.formacao)
             salvar.setString(9, newCandidate.descricao)
             salvar.setString(10, newCandidate.senha)
-            salvar.executeUpdate()
-            System.out.println("Candidato salvo com sucesso!")
+            int rowsInserted = salvar.executeUpdate();
+
+            salvar.close()
+            conectionBD.desconectar(conn)
+
+            if (rowsInserted > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }catch(Exception e){
             e.printStackTrace()
-            System.err.println("Erro salvando candidato")
             System.exit(-42)
         }
     }
 
     @Override
-    void deletar(Scanner leitor) {
+    boolean deletar(String fitraDadoParaDeletar) {
         String DELETAR_CANDIDATO = "DELETE FROM candidatos CASCADE WHERE cpf = ?"
-
-        println "Informe o cpf do candidato: "
-        String cpf = leitor.nextLine()
 
         try {
             PreparedStatement delCandidato = conn.prepareStatement(DELETAR_CANDIDATO)
-            delCandidato.setString(1,cpf)
-            delCandidato.executeUpdate()
+            delCandidato.setString(1, fitraDadoParaDeletar)
+            int rowsDeleted = delCandidato.executeUpdate();
+
             delCandidato.close()
             conectionBD.desconectar(conn)
-            println "O candidato foi deletado"
+
+            if (rowsDeleted > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e){
             e.printStackTrace()
-            System.err.println("Erro deletando o candidado")
             System.exit(-42)
         }
     }
 
     @Override
-    void atualizar(Scanner leitor){
-        println "Informe o código do candidato: "
-        int id = Integer.parseInt(leitor.nextLine())
-
-        String BUSCAR_POR_ID = "SELECT * FROM candidatos WHERE id=?"
-
+    boolean atualizar(Object objeto, String filtraDadoParaAtualizar){
+        CandidatoModel newCandidate = (CandidatoModel) objeto
         try {
-            PreparedStatement vagas = conn.prepareStatement(
-                    BUSCAR_POR_ID,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            )
-            vagas.setInt(1, id)
-            ResultSet res = vagas.executeQuery()
+            String ATUALIZAR = "UPDATE candidatos SET nome=?, sobrenome=?, dt_nascimento=?, email=?, cpf=?, id_pais=?, cep=?, formacao=?, desc_candidato=?, senha=? WHERE cpf=?"
 
-            res.last()
-            int qtd = res.getRow()
-            res.beforeFirst()
+            def dataSql = new java.sql.Date(newCandidate.dtNascimento.time)
 
-            if (qtd > 0) {
+            PreparedStatement upd = conn.prepareStatement(ATUALIZAR)
+            upd.setString(1, newCandidate.nome)
+            upd.setString(2, newCandidate.sobrenome)
+            upd.setDate(3, dataSql)
+            upd.setString(4, newCandidate.email)
+            upd.setLong(5, newCandidate.cpf)
+            upd.setInt(6, newCandidate.pais)
+            upd.setInt(7, newCandidate.cep)
+            upd.setString(8, newCandidate.formacao)
+            upd.setString(9, newCandidate.descricao)
+            upd.setString(10, newCandidate.senha)
+            upd.setString(11, filtraDadoParaAtualizar)
+            int rowsUpdated = upd.executeUpdate()
 
-                Candidato newCandidate = Candidato.criarCandidato(leitor)
-
-                String ATUALIZAR = "UPDATE candidatos SET nome=?, sobrenome=?, dt_nascimento=?, email=?, cpf=?, id_pais=?, cep=?, formacao=?, desc_candidato=?, senha=? WHERE id=?"
-
-                def dataSql = new java.sql.Date(newCandidate.dtNascimento.time)
-
-                PreparedStatement upd = conn.prepareStatement(ATUALIZAR)
-                upd.setString(1, newCandidate.nome)
-                upd.setString(2, newCandidate.sobrenome)
-                upd.setDate(3, dataSql)
-                upd.setString(4, newCandidate.email)
-                upd.setLong(5, newCandidate.cpf)
-                upd.setInt(6, newCandidate.pais)
-                upd.setInt(7, newCandidate.cep)
-                upd.setString(8, newCandidate.formacao)
-                upd.setString(9, newCandidate.descricao)
-                upd.setString(10, newCandidate.senha)
-                upd.setInt(11, id)
-                upd.executeUpdate()
-                upd.close()
-                conectionBD.desconectar(conn)
-                System.out.println("Candidato atualizado com sucesso!")
-            }
-
+            upd.close()
             conectionBD.desconectar(conn)
+
+            return rowsUpdated > 0
         } catch (Exception e) {
             e.printStackTrace()
-            System.err.println("Erro atualizando o candidato")
             System.exit(-42)
+            return false
         }
     }
 

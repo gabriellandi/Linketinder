@@ -1,4 +1,4 @@
-package linketinder.regex
+package linketinder.Model
 
 import static java.util.regex.Pattern.compile
 

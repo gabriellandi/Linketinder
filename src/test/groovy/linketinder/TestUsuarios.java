@@ -1,21 +1,21 @@
 package linketinder;
 
-import linketinder.regex.Regex;
+import linketinder.Model.Regex;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import linketinder.usuarios.Candidato;
+import linketinder.Model.CandidatoModel;
 
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
 public class TestUsuarios {
-    private static Candidato testRegexUsuarios;
+    private static CandidatoModel testRegexUsuarios;
 
     @BeforeAll
     public static void setUp(){
         Date dtNascimento = new Date();
-        testRegexUsuarios = new Candidato("Landi", 12345678912l, "Gabriel", "gabriel.landi@batutinhas.com", "Um bom estudante",
+        testRegexUsuarios = new CandidatoModel("Landi", 12345678912l, "Gabriel", "gabriel.landi@batutinhas.com", "Um bom estudante",
                 12345678, dtNascimento, 1, "Formação da pessoa", "senha123");
     }
 

@@ -246,3 +246,15 @@ ALTER TABLE candidatos
 DROP CONSTRAINT candidatos_id_pais_fkey,
   ADD CONSTRAINT candidatos_id_pais_fkey
     FOREIGN KEY (id_pais) REFERENCES pais (id) ON DELETE CASCADE;
+
+ALTER TABLE curtida_empresa_candidato
+DROP CONSTRAINT curtida_empresa_candidato_id_candidato_fkey,
+  ADD CONSTRAINT curtida_empresa_candidato_id_candidato_fkey
+    FOREIGN KEY (id_candidato) REFERENCES candidatos (id) ON DELETE CASCADE;
+
+ALTER TABLE curtida_empresa_candidato
+DROP CONSTRAINT curtida_empresa_candidato_id_vaga_fkey,
+ADD CONSTRAINT curtida_empresa_candidato_id_vaga_fkey
+FOREIGN KEY (id_vaga)
+REFERENCES vagas(id)
+ON DELETE CASCADE;
