@@ -4,7 +4,7 @@ import linketinder.DAO.CompetenciaAccess
 import linketinder.DAO.EmpresaAccess
 import linketinder.DAO.PaisAccess
 import linketinder.DAO.VagasAccess
-import linketinder.Model.Competencias
+import linketinder.Model.CompetenciasModel
 import linketinder.DAO.bancos.PaisDAO
 import linketinder.Model.Regex
 import linketinder.DAO.bancos.CandidatoDAO
@@ -111,11 +111,11 @@ class App {
                                         PaisView.cadastrarPais(leitor)
                                         break
                                     case "6":
-                                        Map idsCandidato = Competencias.cadastraCompetenciaCandidato(leitor, bancoCandidato)
+                                        Map idsCandidato = CompetenciasModel.cadastraCompetenciaCandidato(leitor, bancoCandidato)
                                         bancoCompetencias.inserirCompetenciasCandidatos(idsCandidato.idCandidato, idsCandidato.idCompetencia)
                                         break
                                     case "7":
-                                        Map idsVagas = Competencias.cadastraCompetenciaVaga(leitor, bancoVagas)
+                                        Map idsVagas = CompetenciasModel.cadastraCompetenciaVaga(leitor, bancoVagas)
                                         bancoCompetencias.inserirCompetenciasVagas(idsVagas.idVaga, idsVagas.idCompetencia)
                                         break
                                     case "8":

@@ -49,8 +49,6 @@ class VagasView {
             novaVaga.setCidade(leitor.nextLine())
         }
 
-        novaVaga.setDataCriacao(new Date())
-
         return novaVaga
     }
 

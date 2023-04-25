@@ -5,6 +5,7 @@ No momento ela está na versão 1.3.0. E nesta versão ela foi desenvolvida usan
 Para execução da aplicação, será necessário, ter instalado:
     - Java 8 ou superior:
     - Postgresql 11 ou superior:
+    - TomCat 8.5.8
 
 Com os itens acima instalado, basta baixar o arquivo app.jar, ir até a pasta onde foi realizado o download abrir o terminal naquela pasta, e executar o comando:
 
@@ -47,5 +48,14 @@ Banco de dados:
 
 A representação gráfica acima foi desenvolvida usando o BRModelo. Para desenvolver o banco de dados, utilizei como base o site [dbdiagram](https://dbdiagram.io), nele desenvolvi o esqueleto do meu banco de dados, exportei o arquivo SQL pelo site realizei algumas edições no arquivo antes de rodá-lo no banco.
 Dentro da pasta banco de dados se encontra o codigo sql, que gerou o banco e alguns dados de exemplo que foram inseridos.
+
+Foram criados alguns endpoints, para cadastrar vagas, empresas, candidatos, competencias e listar competencias e vagas, o arquivo para testar estas funcionalidades esta na pasta assets é possível rodar as instrucoes usando o postman.
+A dificuldade para disponibilizar esses endpoints, foi a falta de documentação, abaixo irei simplificar uma das minhas dificuldades:
+1 - No video abaixo, ele mostra que é necessário possuir um artefato (.war), usando o gradle basta acessar o arquivo build.gradle, e inserir o "id 'war'" nos plugins, com isso o gradle disponibilza uma task que gera o artefato.
+[Integracao do TomCat](https://www.youtube.com/watch?v=ThBw3WBTw9Q&t=21s&pp=ygUZdG9tY2F0IGludGVsbGlqIHVsdGltYXRlIA%3D%3D)
+
+2 - Em termos de estrutura, minha aplicação era apenas java, e agora ela precisa de uma integração com o front, sendo assim no intellij você deve inserir o JAVA EE na estrutura do projeto.
+
+3 - Na hora de realizar o POST e persistir os dados no banco, inicialmente o TomCat pode acusar que não encontrou uma o driver do banco de dados. A solução eu encontrei na [documentação](https://javarevisited.blogspot.com/2015/06/org.postgresql.Driver-javalangclassnotfoundexception.html?m=1#axzz7Um1Ihjng).
 
 Está aplicação será desenvolvida ao longo do programa Acelera ZG!!!

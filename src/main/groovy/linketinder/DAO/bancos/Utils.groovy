@@ -13,6 +13,7 @@ class Utils {
         String URL_SERVIDOR = "jdbc:postgresql://localhost:5432/postgres";
 
         try {
+            Class.forName("org.postgresql.Driver")
             return DriverManager.getConnection(URL_SERVIDOR, props);
         } catch (Exception e) {
             e.printStackTrace();
@@ -23,6 +24,15 @@ class Utils {
             }
             System.exit(-42);
             return null
+        }
+    }
+
+    static Connection conectar(String jdbcUrl, String jdbcUsername, String jdbcPassword) {
+        // ...
+        try {
+            return DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword);
+        } catch (Exception e) {
+            // ...
         }
     }
 

@@ -1,6 +1,6 @@
 package linketinder.DAO.bancos
 
-import linketinder.Model.Competencias
+import linketinder.Model.CompetenciasModel
 
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -11,7 +11,7 @@ class CompetenciasDAO implements IConnect {
 
     @Override
     boolean inserir(Object objeto){
-        Competencias c = (Competencias) objeto
+        CompetenciasModel c = (CompetenciasModel) objeto
         String INSERIR = "INSERT INTO competencias (nome_competencia) VALUES (?)"
         try{
             Connection conn = conectionBD.conectar()
@@ -66,7 +66,7 @@ class CompetenciasDAO implements IConnect {
 
     @Override
     boolean atualizar(Object objeto, String filtraDadoParaAtualizar){
-        Competencias competenciaAtualizada = (Competencias) objeto
+        CompetenciasModel competenciaAtualizada = (CompetenciasModel) objeto
         try {
             Connection conn = conectionBD.conectar()
             String ATUALIZAR = "UPDATE competencias SET UPPER(nome_competencia)=? WHERE (nome_competencia)=?"

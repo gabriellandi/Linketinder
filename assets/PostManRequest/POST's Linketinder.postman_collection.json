@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "57ab4732-59ed-42c1-81b8-e6f4f436fd99",
+		"name": "POST's Linketinder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Salva Candidato",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sobrenome\": \"Landi Xavier\",\n  \"cpf\": 75388472191,\n  \"nome\": \"Gabriel\",\n  \"email\": \"gabriel@candidato.com\",\n  \"descricao\": \"Descrição do candidato\",\n  \"cep\": 12345678,\n  \"dtNascimento\": \"1990-01-01\",\n  \"pais\": 5,\n  \"formacao\": \"Matematica\",\n  \"senha\": \"123456\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/Gradle___Linketinder_war/candidatos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Gradle___Linketinder_war",
+						"candidatos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Salva Empresa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cnpj\": 12345678901234,\n    \"pais\": 1,\n    \"nome\": \"Empresa Exemplo\",\n    \"email\": \"exemplo@empresa.com\",\n    \"descricao\": \"Uma empresa de exemplo\",\n    \"cep\": 12345678,\n    \"senha\": \"senha123\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/Gradle___Linketinder_war/empresas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Gradle___Linketinder_war",
+						"empresas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Retorna JsonCompetencias",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Post Salva Competencia",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"Java\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/Gradle___Linketinder_war/competencias",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Gradle___Linketinder_war",
+						"competencias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Salva Vaga",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nomeVaga\": \"Desenvolvedor Full Stack\",\n    \"idEmpresa\": 1,\n    \"descVaga\": \"Desenvolvimento de aplicações web e mobile\",\n    \"estado\": \"SP\",\n    \"cidade\": \"São Paulo\"\n}"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Retorna JsonVagas",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

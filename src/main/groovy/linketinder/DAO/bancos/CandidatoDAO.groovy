@@ -4,11 +4,12 @@ package linketinder.DAO.bancos
 import linketinder.Model.CandidatoModel
 import linketinder.View.CandidatoView
 
+import javax.servlet.http.HttpServlet
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class CandidatoDAO implements IConnect{
+class CandidatoDAO extends HttpServlet implements IConnect{
 
     Utils conectionBD = new Utils()
     Connection conn = conectionBD.conectar()

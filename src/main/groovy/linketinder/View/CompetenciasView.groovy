@@ -3,17 +3,13 @@ package linketinder.View
 import linketinder.Controller.CandidatoControler
 import linketinder.Controller.CompetenciaController
 import linketinder.Controller.VagaController
-import linketinder.DAO.bancos.CandidatoDAO
-import linketinder.DAO.bancos.CompetenciasDAO
-import linketinder.DAO.bancos.VagasDAO
-import linketinder.Model.CandidatoModel
-import linketinder.Model.Competencias
+import linketinder.Model.CompetenciasModel
 import linketinder.Model.Regex
 import linketinder.Model.VagaModel
 
 class CompetenciasView {
-    static Competencias criaCompetencia(Scanner leitor){
-        Competencias novaCompetencia = new Competencias()
+    static CompetenciasModel criaCompetencia(Scanner leitor){
+        CompetenciasModel novaCompetencia = new CompetenciasModel()
 
         println "Digite um nome para a competencia"
 
@@ -27,7 +23,7 @@ class CompetenciasView {
     }
 
     static void cadastraCompetencia(Scanner leitor){
-        Competencias novaCompetencia = criaCompetencia(leitor)
+        CompetenciasModel novaCompetencia = criaCompetencia(leitor)
 
         if(CompetenciaController.salvaCompetencia(novaCompetencia)){
             println "Competencia salva com sucesso"
@@ -45,7 +41,7 @@ class CompetenciasView {
             nome = leitor.nextLine()
         }
 
-        Competencias competenciaAtualizada = criaCompetencia(leitor)
+        CompetenciasModel competenciaAtualizada = criaCompetencia(leitor)
 
         if(CompetenciaController.atualizaCompetencia(competenciaAtualizada, nome.toUpperCase())){
             println "Competencia atualizada com sucesso"
